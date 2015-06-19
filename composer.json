@@ -12,5 +12,8 @@
             "name": "lucaszz111",
             "email": "lucaszz111@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": { "Lucaszz\\FacebookAuthenticationBundle\\": "" }
+    }
 }
