@@ -1,5 +1,5 @@
 {
-    "name": "lukasz/facebook-authentication-bundle",
+    "name": "lucaszz/facebook-authentication-bundle",
     "description": "This bundle helps you to add \"Login with facebook\" feature to your app",
     "require": {
         "friendsofsymfony/user-bundle": "~1.3",
