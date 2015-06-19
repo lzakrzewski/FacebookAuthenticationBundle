@@ -1,0 +1,16 @@
+{
+    "name": "lukasz/facebook-authentication-bundle",
+    "description": "This bundle helps you to add \"Login with facebook\" feature to your app",
+    "require": {
+        "friendsofsymfony/user-bundle": "~1.3",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lucaszz111",
+            "email": "lucaszz111@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
