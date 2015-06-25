@@ -1,0 +1,8 @@
+services:
+    lucaszz_facebook_authentication.guzzle:
+        class: GuzzleHttp\Client
+
+    lucaszz_facebook_authentication.adapter.facebook_api:
+        class: Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi
+        arguments:
+             - @lucaszz_facebook_authentication.guzzle
