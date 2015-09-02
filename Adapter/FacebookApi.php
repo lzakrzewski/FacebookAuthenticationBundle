@@ -2,30 +2,19 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 
-use GuzzleHttp\ClientInterface;
-
-class FacebookApi
+interface FacebookApi
 {
-    /** @var ClientInterface */
-    private $client;
+    public function accessToken();
 
-    public function __construct(ClientInterface $client)
-    {
-        $this->client = $client;
-    }
+    /**
+     * @return string
+     */
+    public function loginDialogUrl();
 
-    public function accessToken()
-    {
-        return 'xyz';
-    }
-
-    public function loginDialogUrl()
-    {
-        return 'xyz';
-    }
-
-    public function me()
-    {
-        return array();
-    }
+    /**
+     * @param $accessToken
+     *
+     * @return array
+     */
+    public function me($accessToken);
 }

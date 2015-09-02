@@ -2,6 +2,6 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 
-class FacebookApiException
+final class FacebookApiException extends \RuntimeException
 {
 }

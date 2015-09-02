@@ -17,6 +17,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('login_path')->defaultValue('/facebook/login')->end()
                 ->scalarNode('app_id')->isRequired()->end()
                 ->scalarNode('app_secret')->isRequired()->end()
             ->end();
