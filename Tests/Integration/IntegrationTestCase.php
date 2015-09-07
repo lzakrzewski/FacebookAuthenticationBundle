@@ -15,6 +15,8 @@ abstract class IntegrationTestCase extends BaseWebTestCase
     protected $container;
     /** @var Client */
     protected $client;
+    /** @var array */
+    protected $config;
     /** @var RouterInterface */
     private $router;
     /** @var EntityManager */
@@ -29,6 +31,7 @@ abstract class IntegrationTestCase extends BaseWebTestCase
     {
         $this->client = $this->createClient();
         $this->container = $this->client->getContainer();
+        $this->config = $this->container->getParameter('lucaszz_facebook_authentication.config');
         $this->router = $this->container->get('router');
         $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
 
@@ -40,9 +43,14 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         return $this->entityManager;
     }
 
-    protected function visit($routeName, array $parameters = array())
+    protected function visit($url)
     {
-        $this->crawler = $this->client->request('GET', $this->router->generate($routeName, $parameters));
+        $this->crawler = $this->client->request('GET', $url);
+    }
+
+    protected function visitRoute($routeName, array $parameters = array())
+    {
+        $this->visit($this->router->generate($routeName, $parameters));
     }
 
     /**
@@ -51,6 +59,7 @@ abstract class IntegrationTestCase extends BaseWebTestCase
     protected function tearDown()
     {
         $this->client = null;
+        $this->config = null;
         $this->container = null;
         $this->router = null;
         $this->entityManager = null;
@@ -60,11 +69,10 @@ abstract class IntegrationTestCase extends BaseWebTestCase
 
     private function purgeDatabase()
     {
-        $connection = $this->entityManager->getConnection();
-        $tables = $connection->getSchemaManager()->listTableNames();
+        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
+        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
 
-        foreach ($tables as $table) {
-            $connection->exec(sprintf('DELETE FROM %s', $table));
-        }
+        $connection = $this->entityManager->getConnection();
+        $connection->exec(sprintf('DELETE FROM %s', $tableName));
     }
 }

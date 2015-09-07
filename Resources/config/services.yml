@@ -2,14 +2,15 @@ services:
     lucaszz_facebook_authentication.guzzle:
         class: GuzzleHttp\Client
 
-    lucaszz_facebook_authentication.adapter.facebook_urls:
-        class: Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookUrls
+    lucaszz_facebook_authentication.event_listener.facebook_listener:
+        class: Lucaszz\FacebookAuthenticationBundle\EventListener\FacebookListener
         arguments:
-             - @router.request_context
+             - @router
              - %lucaszz_facebook_authentication.config%
+        tags:
+             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     lucaszz_facebook_authentication.adapter.facebook_api:
         class: Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi
         arguments:
              - @lucaszz_facebook_authentication.guzzle
-             - @lucaszz_facebook_authentication.adapter.facebook_urls

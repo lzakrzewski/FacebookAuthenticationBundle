@@ -12,17 +12,13 @@ class GuzzleFacebookApi implements FacebookApi
 
     /** @var ClientInterface */
     private $client;
-    /** @var AuthUrl */
-    private $urls;
 
     /**
      * @param ClientInterface $client
-     * @param AuthUrl         $urls
      */
-    public function __construct(ClientInterface $client, AuthUrl $urls)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->urls = $urls;
     }
 
     public function accessToken()

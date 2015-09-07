@@ -10,11 +10,30 @@ class AuthenticationTest extends IntegrationTestCase
     /**
      * @test
      */
+    public function it_redirects_to_facebook_dialog_page()
+    {
+        $this->visit($this->config['login_path']);
+
+        $response = $this->client->getResponse();
+
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+
+        $parsedUrl = parse_url($response->getTargetUrl());
+        parse_str($parsedUrl['query'], $parsedQuery);
+
+        $this->assertArrayHasKey('redirect_uri', $parsedQuery);
+        $this->assertArrayHasKey('scope', $parsedQuery);
+        $this->assertArrayHasKey('client_id', $parsedQuery);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_be_authorized_with_facebook_credentials()
     {
         $this->user('john-doe', 'test1');
 
-        $this->visit('fos_user_security_login');
+        $this->visitRoute('fos_user_security_login');
         $this->fillAndSubmitLoginForm('john-doe', 'test1');
 
         $this->assertIsAuthorizedAsUser('john-doe');
@@ -27,7 +46,7 @@ class AuthenticationTest extends IntegrationTestCase
     {
         $this->user('john-doe', 'test1');
 
-        $this->visit('fos_user_security_login');
+        $this->visitRoute('fos_user_security_login');
         $this->fillAndSubmitLoginForm('wrong-username', 'test1');
 
         $this->assertIsNotAuthorizedAsUser();
@@ -72,7 +91,7 @@ class AuthenticationTest extends IntegrationTestCase
     private function securityData()
     {
         $this->client->enableProfiler();
-        $this->visit('fos_user_security_login');
+        $this->visitRoute('fos_user_security_login');
 
         return unserialize($this->client->getProfile()->getCollector('security')->serialize());
     }
