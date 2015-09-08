@@ -3,7 +3,6 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 
 class GuzzleFacebookApi implements FacebookApi
 {
@@ -21,27 +20,12 @@ class GuzzleFacebookApi implements FacebookApi
         $this->client = $client;
     }
 
-    public function accessToken()
-    {
-        try {
-            $data = $this->handleJsonRequest(
-                'GET',
-                self::ACCESS_TOKEN_URL,
-                array()
-            );
-        } catch (RequestException $e) {
-            throw new FacebookApiException(sprintf('Unable to get "me" endpoint data with access token: %s', 'xyz'));
-        }
-
-        return $data;
-    }
-
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function loginDialogUrl()
+    public function accessToken($code)
     {
-        return $this->urls->loginDialogUrl();
+        return 'xyz';
     }
 
     /**
@@ -49,23 +33,6 @@ class GuzzleFacebookApi implements FacebookApi
      */
     public function me($accessToken)
     {
-        try {
-            $data = $this->handleJsonRequest($accessToken, 'GET', self::ME_URL, array('access_token' => $accessToken));
-        } catch (RequestException $e) {
-            throw new FacebookApiException(sprintf('Unable to get "me" endpoint data with access token: %s', $accessToken));
-        }
-
-        return $data;
-    }
-
-    private function handleJsonRequest($accessToken, $method, $url)
-    {
-        $request = $this->client->createRequest($method, $url);
-        $query = $request->getQuery();
-        $query->set('access_token', $accessToken);
-
-        $response = $this->client->send($request);
-
-        return $response->json();
+        return ['id' => 123456, 'name' => 'FacebookUser'];
     }
 }

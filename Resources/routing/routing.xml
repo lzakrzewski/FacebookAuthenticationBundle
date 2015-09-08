@@ -5,5 +5,4 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="lucaszz_facebook_authentication_login_path" pattern="/facebook/login"/>
-
 </routes>

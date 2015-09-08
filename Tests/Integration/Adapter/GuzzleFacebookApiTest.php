@@ -15,15 +15,7 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
      */
     public function it_can_get_access_token()
     {
-        $this->assertEquals('xyz', $this->adapter->accessToken());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_login_dialog_url()
-    {
-        $this->assertEquals('http://localhost/faebook/login', $this->adapter->loginDialogUrl());
+        $this->assertEquals('xyz', $this->adapter->accessToken('1234'));
     }
 
     /**

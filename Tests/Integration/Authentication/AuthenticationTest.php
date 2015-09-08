@@ -14,16 +14,35 @@ class AuthenticationTest extends IntegrationTestCase
     {
         $this->visit($this->config['login_path']);
 
-        $response = $this->client->getResponse();
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $this->client->getResponse());
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $query = $this->redirectResponseQuery();
 
-        $parsedUrl = parse_url($response->getTargetUrl());
-        parse_str($parsedUrl['query'], $parsedQuery);
+        $this->assertArrayHasKey('redirect_uri', $query);
+        $this->assertArrayHasKey('scope', $query);
+        $this->assertArrayHasKey('client_id', $query);
+    }
 
-        $this->assertArrayHasKey('redirect_uri', $parsedQuery);
-        $this->assertArrayHasKey('scope', $parsedQuery);
-        $this->assertArrayHasKey('client_id', $parsedQuery);
+    /**
+     * @test
+     */
+    public function it_authorize_new_facebook_user()
+    {
+        $this->visit($this->config['login_path'].'?code=1234');
+
+        $this->assertIsAuthorizedAsUser('FacebookUser');
+    }
+
+    /**
+     * @test
+     */
+    public function it_authorize_existing_facebook_user()
+    {
+        $this->user('FacebookUser', 'test1', 123456);
+
+        $this->visit($this->config['login_path'].'?code=1234');
+
+        $this->assertIsAuthorizedAsUser('FacebookUser');
     }
 
     /**
@@ -52,7 +71,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertIsNotAuthorizedAsUser();
     }
 
-    private function user($username, $password)
+    private function user($username, $password, $facebookId = 12456)
     {
         $user = new TestUser();
 
@@ -60,6 +79,7 @@ class AuthenticationTest extends IntegrationTestCase
         $user->setUsername($username);
         $user->setEmail('john@example.com');
         $user->setEnabled(true);
+        $user->setFacebookId($facebookId);
 
         $this->entityManager()->persist($user);
         $this->entityManager()->flush();
@@ -94,5 +114,13 @@ class AuthenticationTest extends IntegrationTestCase
         $this->visitRoute('fos_user_security_login');
 
         return unserialize($this->client->getProfile()->getCollector('security')->serialize());
+    }
+
+    private function redirectResponseQuery()
+    {
+        $parsedUrl = parse_url($this->client->getResponse()->getTargetUrl());
+        parse_str($parsedUrl['query'], $parsedQuery);
+
+        return $parsedQuery;
     }
 }

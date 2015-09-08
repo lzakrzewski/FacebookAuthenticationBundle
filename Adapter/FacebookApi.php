@@ -4,12 +4,12 @@ namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 
 interface FacebookApi
 {
-    public function accessToken();
-
     /**
+     * @param $code
+     *
      * @return string
      */
-    public function loginDialogUrl();
+    public function accessToken($code);
 
     /**
      * @param $accessToken
