@@ -53,6 +53,22 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->visit($this->router->generate($routeName, $parameters));
     }
 
+    protected function user($username, $password, $facebookId = 12456)
+    {
+        $user = new TestUser();
+
+        $user->setPlainPassword($password);
+        $user->setUsername($username);
+        $user->setEmail('john@example.com');
+        $user->setEnabled(true);
+        $user->setFacebookId($facebookId);
+
+        $this->entityManager()->persist($user);
+        $this->entityManager()->flush();
+
+        return $user;
+    }
+
     /**
      * {@inheritdoc}
      */

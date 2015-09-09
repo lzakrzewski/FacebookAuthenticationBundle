@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RequestContext;
 
+/**
+ * @todo move to security completly
+ */
 class FacebookListener
 {
     const LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';

@@ -5,6 +5,9 @@ namespace Lucaszz\FacebookAuthenticationBundle\Model;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\TestUser;
 
+/**
+ * @todo add events
+ */
 class FacebookUsers
 {
     /** @var UserManagerInterface */
@@ -25,16 +28,15 @@ class FacebookUsers
     {
         $user = $this->users->findUserBy(array('facebookId' => $fields['id']));
 
-        if (null !== $user) {
-            return $user;
+        if (null === $user) {
+            $user = new TestUser();
+            $user->setFacebookId($fields['id']);
         }
 
-        $user = new TestUser();
         $user->setUsername($fields['name']);
         $user->setEnabled(true);
-        $user->setEmail('email@example.com');
-        $user->setPassword('xyz');
-        $user->setFacebookId($fields['id']);
+        $user->setEmail($fields['email']);
+        $user->setPassword(uniqid());
 
         $this->users->updateUser($user);
 

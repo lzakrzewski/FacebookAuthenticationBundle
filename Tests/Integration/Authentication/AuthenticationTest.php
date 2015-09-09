@@ -3,8 +3,10 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\TestUser;
 
+/**
+ * @test case for api exception
+ */
 class AuthenticationTest extends IntegrationTestCase
 {
     /**
@@ -69,22 +71,6 @@ class AuthenticationTest extends IntegrationTestCase
         $this->fillAndSubmitLoginForm('wrong-username', 'test1');
 
         $this->assertIsNotAuthorizedAsUser();
-    }
-
-    private function user($username, $password, $facebookId = 12456)
-    {
-        $user = new TestUser();
-
-        $user->setPlainPassword($password);
-        $user->setUsername($username);
-        $user->setEmail('john@example.com');
-        $user->setEnabled(true);
-        $user->setFacebookId($facebookId);
-
-        $this->entityManager()->persist($user);
-        $this->entityManager()->flush();
-
-        return $user;
     }
 
     private function fillAndSubmitLoginForm($username, $password)

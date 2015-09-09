@@ -25,7 +25,7 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $data = $this->adapter->me($this->accessToken());
 
-        $this->assertEquals(array('id' => 'xyz'), $data);
+        $this->assertEquals(array('id' => 123456, 'name' => 'FacebookUser'), $data);
     }
 
     /**
@@ -40,6 +40,6 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
 
     private function accessToken()
     {
-        return $this->container->getParameter('fb_test_access_token');
+        return 'xyzy';
     }
 }
