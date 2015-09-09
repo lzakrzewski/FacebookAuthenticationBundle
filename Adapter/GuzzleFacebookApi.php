@@ -33,6 +33,6 @@ class GuzzleFacebookApi implements FacebookApi
      */
     public function me($accessToken)
     {
-        return array('id' => 123456, 'name' => 'FacebookUser');
+        return array('id' => 123456, 'name' => 'FacebookUser', 'email' => 'email@example.com');
     }
 }

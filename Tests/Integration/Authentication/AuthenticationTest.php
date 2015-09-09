@@ -5,7 +5,7 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
 /**
- * @test case for api exception
+ * @todo test case for api exception
  */
 class AuthenticationTest extends IntegrationTestCase
 {

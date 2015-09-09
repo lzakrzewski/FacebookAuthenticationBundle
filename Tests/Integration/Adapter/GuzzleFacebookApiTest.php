@@ -23,9 +23,7 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
      */
     public function it_can_get_me_data()
     {
-        $data = $this->adapter->me($this->accessToken());
-
-        $this->assertEquals(array('id' => 123456, 'name' => 'FacebookUser'), $data);
+        $this->adapter->me($this->accessToken());
     }
 
     /**

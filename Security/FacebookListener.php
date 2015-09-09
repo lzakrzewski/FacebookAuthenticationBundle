@@ -1,18 +1,16 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\EventListener;
+namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
-use Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-/**
- * @todo move to security completly
- */
-class FacebookListener
+//@todo redirects from security
+class FacebookListener implements ListenerInterface
 {
     const LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
 
@@ -36,9 +34,9 @@ class FacebookListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * {@inheritdoc}
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function handle(GetResponseEvent $event)
     {
         $requestMatcher = new RequestMatcher('^'.$this->config['login_path']);
         if (false === $requestMatcher->matches($event->getRequest())) {

@@ -15,14 +15,12 @@ services:
             - @fos_user.security.login_manager
             - %fos_user.firewall_name%
 
-    lucaszz_facebook_authentication.event_listener.facebook_listener:
-        class: Lucaszz\FacebookAuthenticationBundle\EventListener\FacebookListener
+    lucaszz_facebook_authentication.security.facebook_listener:
+        class: Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener
         arguments:
              - @router.request_context
              - @lucaszz_facebook_authentication.security.facebook_login_manager
              - %lucaszz_facebook_authentication.config%
-        tags:
-             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     lucaszz_facebook_authentication.adapter.facebook_api:
         class: Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi
