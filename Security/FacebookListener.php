@@ -4,12 +4,20 @@ namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-//@todo redirects from security
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class FacebookListener implements ListenerInterface
 {
     const LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
@@ -17,19 +25,37 @@ class FacebookListener implements ListenerInterface
     /** @var FacebookLoginManager */
     private $loginManager;
     /** @var RequestContext */
-    private $context;
+    private $requestContext;
+    /** @var SecurityContextInterface */
+    private $securityContext;
+    /** @var AuthenticationSuccessHandlerInterface */
+    private $successHandler;
+    /** @var AuthenticationFailureHandlerInterface */
+    private $failureHandler;
     /** @var array */
     private $config;
 
     /**
-     * @param RequestContext       $context
-     * @param FacebookLoginManager $loginManager
-     * @param array                $config
+     * @param FacebookLoginManager                  $loginManager
+     * @param RequestContext                        $requestContext
+     * @param SecurityContextInterface              $securityContext
+     * @param AuthenticationSuccessHandlerInterface $successHandler
+     * @param AuthenticationFailureHandlerInterface $failureHandler
+     * @param array                                 $config
      */
-    public function __construct(RequestContext $context, FacebookLoginManager $loginManager, array $config)
-    {
-        $this->context = $context;
+    public function __construct(
+        FacebookLoginManager $loginManager,
+        RequestContext $requestContext,
+        SecurityContextInterface $securityContext,
+        AuthenticationSuccessHandlerInterface $successHandler,
+        AuthenticationFailureHandlerInterface $failureHandler,
+        array $config
+    ) {
         $this->loginManager = $loginManager;
+        $this->requestContext = $requestContext;
+        $this->securityContext = $securityContext;
+        $this->successHandler = $successHandler;
+        $this->failureHandler = $failureHandler;
         $this->config = $config;
     }
 
@@ -45,27 +71,45 @@ class FacebookListener implements ListenerInterface
 
         $request = $event->getRequest();
 
-        if (null !== $code = $request->query->get('code')) {
-            try {
-                $this->loginManager->login($code);
-                $event->setResponse(new RedirectResponse('/login'));
+        if (null === $code = $request->query->get('code')) {
+            $event->setResponse(new RedirectResponse($this->loginDialogUrl()));
 
-                return;
-            } catch (FacebookApiException $e) {
-            }
+            return;
         }
 
-        $event->setResponse(new RedirectResponse($this->loginDialogUrl()));
+        try {
+            $this->loginManager->login($code);
+
+            $response = $this->onSuccess($request, $this->securityContext->getToken());
+        } catch (FacebookApiException $e) {
+            $response = $this->onFailure($request, $e);
+        }
+
+        $event->setResponse($response);
     }
 
     private function loginDialogUrl()
     {
-        $redirectUri = sprintf('%s://%s%s', $this->context->getScheme(), $this->context->getHost(), $this->config['login_path']);
+        $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->config['login_path']);
 
         return self::LOGIN_DIALOG_URL.'?'.http_build_query(array(
             'client_id' => $this->config['app_id'],
             'redirect_uri' => $redirectUri,
             'scope' => 'user_birthday, public_profile, email',
         ));
+    }
+
+    private function onFailure(Request $request, FacebookApiException $failed)
+    {
+        $response = $this->failureHandler->onAuthenticationFailure($request, new AuthenticationException($failed->getMessage()));
+
+        return $response;
+    }
+
+    private function onSuccess(Request $request, TokenInterface $token)
+    {
+        $response = $this->successHandler->onAuthenticationSuccess($request, $token);
+
+        return $response;
     }
 }

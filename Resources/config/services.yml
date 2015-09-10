@@ -18,8 +18,11 @@ services:
     lucaszz_facebook_authentication.security.facebook_listener:
         class: Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener
         arguments:
-             - @router.request_context
              - @lucaszz_facebook_authentication.security.facebook_login_manager
+             - @router.request_context
+             - @security.context
+             -
+             -
              - %lucaszz_facebook_authentication.config%
 
     lucaszz_facebook_authentication.adapter.facebook_api:
