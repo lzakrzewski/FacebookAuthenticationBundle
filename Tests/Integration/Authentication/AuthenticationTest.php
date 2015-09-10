@@ -14,7 +14,7 @@ class AuthenticationTest extends IntegrationTestCase
      */
     public function it_redirects_to_facebook_dialog_page()
     {
-        $this->visit($this->config['login_path']);
+        $this->visit('/facebook/login');
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $this->client->getResponse());
 
@@ -30,7 +30,7 @@ class AuthenticationTest extends IntegrationTestCase
      */
     public function it_authorize_new_facebook_user()
     {
-        $this->visit($this->config['login_path'].'?code=1234');
+        $this->visit('/facebook/login?code=1234');
 
         $this->assertIsAuthorizedAsUser('FacebookUser');
     }
@@ -42,7 +42,7 @@ class AuthenticationTest extends IntegrationTestCase
     {
         $this->user('FacebookUser', 'test1', 123456);
 
-        $this->visit($this->config['login_path'].'?code=1234');
+        $this->visit('/facebook/login?code=1234');
 
         $this->assertIsAuthorizedAsUser('FacebookUser');
     }
@@ -50,7 +50,19 @@ class AuthenticationTest extends IntegrationTestCase
     /**
      * @test
      */
-    public function it_can_be_authorized_with_facebook_credentials()
+    public function it_does_not_authorize_facebook_user_when_problem_with_api_occurs()
+    {
+        $this->user('FacebookUser', 'test1', 123456);
+
+        $this->visit('/facebook/login?code=1234');
+
+        $this->assertIsAuthorizedAsUser('FacebookUser');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_authorized_with_form_login_and_valid_credentials()
     {
         $this->user('john-doe', 'test1');
 
@@ -63,7 +75,7 @@ class AuthenticationTest extends IntegrationTestCase
     /**
      * @test
      */
-    public function it_can_not_be_authorized_with_facebook_credentials()
+    public function it_can_not_be_authorized_with_form_login_and_invalid_credentials()
     {
         $this->user('john-doe', 'test1');
 

@@ -96,7 +96,7 @@ class FacebookListener implements ListenerInterface
     /** @todo configurable scopes */
     private function loginDialogUrl()
     {
-        $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->config['login_path']);
+        $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->loginPath);
 
         return self::LOGIN_DIALOG_URL.'?'.http_build_query(array(
             'client_id' => $this->config['app_id'],
