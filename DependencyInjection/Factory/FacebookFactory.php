@@ -43,6 +43,7 @@ class FacebookFactory implements SecurityFactoryInterface
 
         $listener->replaceArgument(3, new Reference($this->createAuthenticationSuccessHandler($container, $id, $config)));
         $listener->replaceArgument(4, new Reference($this->createAuthenticationFailureHandler($container, $id, $config)));
+        $listener->replaceArgument(5, $config['facebook_login_path']);
 
         $container->setDefinition($listenerId, $listener);
 
@@ -93,5 +94,11 @@ class FacebookFactory implements SecurityFactoryInterface
      */
     public function addConfiguration(NodeDefinition $node)
     {
+        $node
+            ->children()
+                ->scalarNode('facebook_login_path')
+                    ->defaultValue('/facebook/login')
+                ->end()
+            ->end();
     }
 }

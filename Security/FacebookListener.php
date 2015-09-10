@@ -32,6 +32,8 @@ class FacebookListener implements ListenerInterface
     private $successHandler;
     /** @var AuthenticationFailureHandlerInterface */
     private $failureHandler;
+    /** @var string */
+    private $loginPath;
     /** @var array */
     private $config;
 
@@ -41,6 +43,7 @@ class FacebookListener implements ListenerInterface
      * @param SecurityContextInterface              $securityContext
      * @param AuthenticationSuccessHandlerInterface $successHandler
      * @param AuthenticationFailureHandlerInterface $failureHandler
+     * @param string                                $loginPath
      * @param array                                 $config
      */
     public function __construct(
@@ -49,6 +52,7 @@ class FacebookListener implements ListenerInterface
         SecurityContextInterface $securityContext,
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
+        $loginPath,
         array $config
     ) {
         $this->loginManager = $loginManager;
@@ -56,6 +60,7 @@ class FacebookListener implements ListenerInterface
         $this->securityContext = $securityContext;
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
+        $this->loginPath = $loginPath;
         $this->config = $config;
     }
 
@@ -64,7 +69,7 @@ class FacebookListener implements ListenerInterface
      */
     public function handle(GetResponseEvent $event)
     {
-        $requestMatcher = new RequestMatcher('^'.$this->config['login_path']);
+        $requestMatcher = new RequestMatcher('^'.$this->loginPath);
         if (false === $requestMatcher->matches($event->getRequest())) {
             return;
         }
@@ -88,6 +93,7 @@ class FacebookListener implements ListenerInterface
         $event->setResponse($response);
     }
 
+    /** @todo configurable scopes */
     private function loginDialogUrl()
     {
         $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->config['login_path']);
