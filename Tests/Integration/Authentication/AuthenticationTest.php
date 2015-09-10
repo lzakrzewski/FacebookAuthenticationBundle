@@ -2,6 +2,7 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
+use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
 /**
@@ -54,9 +55,11 @@ class AuthenticationTest extends IntegrationTestCase
     {
         $this->user('FacebookUser', 'test1', 123456);
 
+        FakeFacebookApi::problemWithApiOccurs();
+
         $this->visit('/facebook/login?code=1234');
 
-        $this->assertIsAuthorizedAsUser('FacebookUser');
+        $this->assertIsNotAuthorizedAsUser();
     }
 
     /**

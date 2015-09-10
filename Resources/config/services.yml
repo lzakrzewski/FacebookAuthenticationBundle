@@ -2,6 +2,13 @@ services:
     lucaszz_facebook_authentication.guzzle:
         class: GuzzleHttp\Client
 
+    lucaszz_facebook_authentication.adapter.facebook_api: @lucaszz_facebook_authentication.adapter.facebook_api.guzzle
+
+    lucaszz_facebook_authentication.adapter.facebook_api.guzzle:
+        class: Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi
+        arguments:
+             - @lucaszz_facebook_authentication.guzzle
+
     lucaszz_facebook_authentication.model.facebook_users:
         class: Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers
         arguments:
@@ -25,8 +32,3 @@ services:
              - @?
              - ?
              - %lucaszz_facebook_authentication.config%
-
-    lucaszz_facebook_authentication.adapter.facebook_api:
-        class: Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi
-        arguments:
-             - @lucaszz_facebook_authentication.guzzle

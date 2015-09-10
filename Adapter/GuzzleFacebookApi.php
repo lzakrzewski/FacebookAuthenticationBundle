@@ -25,7 +25,7 @@ class GuzzleFacebookApi implements FacebookApi
      */
     public function accessToken($code)
     {
-        return 'xyz';
+        throw new \Exception('Not implemented yet.');
     }
 
     /**
@@ -33,6 +33,6 @@ class GuzzleFacebookApi implements FacebookApi
      */
     public function me($accessToken)
     {
-        return array('id' => 123456, 'name' => 'FacebookUser', 'email' => 'email@example.com');
+        throw new \Exception('Not implemented yet.');
     }
 }
