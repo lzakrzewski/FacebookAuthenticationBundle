@@ -1,5 +1,0 @@
-services:
-    lucaszz_facebook_authentication.adapter.facebook_api: @lucaszz_facebook_authentication.adapter.facebook_api.fake
-
-    lucaszz_facebook_authentication.adapter.facebook_api.fake:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi

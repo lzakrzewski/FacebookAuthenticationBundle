@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lucaszz_facebook_authentication.guzzle" class="GuzzleHttp\Client" />
+
+        <service id="lucaszz_facebook_authentication.adapter.facebook_api" alias="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" />
+
+        <service id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" class="Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi" >
+            <argument type="service" id="lucaszz_facebook_authentication.guzzle"/>
+        </service>
+
+        <service id="lucaszz_facebook_authentication.model.facebook_users" class="Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers" >
+            <argument type="service" id="fos_user.user_manager"/>
+        </service>
+
+        <service id="lucaszz_facebook_authentication.security.facebook_login_manager" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager" >
+            <argument type="service" id="lucaszz_facebook_authentication.adapter.facebook_api"/>
+            <argument type="service" id="lucaszz_facebook_authentication.model.facebook_users"/>
+            <argument type="service" id="fos_user.security.login_manager"/>
+            <argument>%fos_user.firewall_name%</argument>
+        </service>
+
+        <service id="lucaszz_facebook_authentication.security.facebook_listener" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener" >
+            <argument type="service" id="lucaszz_facebook_authentication.security.facebook_login_manager"/>
+            <argument type="service" id="router.request_context"/>
+            <argument type="service" id="security.context"/>
+            <argument/>
+            <argument/>
+            <argument/>
+            <argument>%lucaszz_facebook_authentication.config%</argument>
+        </service>
+    </services>
+</container>
