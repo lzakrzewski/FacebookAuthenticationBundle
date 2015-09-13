@@ -32,6 +32,7 @@
             <argument/>
             <argument/>
             <argument>%lucaszz_facebook_authentication.config%</argument>
+            <argument type="service" id="logger" on-invalid="null" />
         </service>
     </services>
 </container>

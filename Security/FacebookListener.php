@@ -3,6 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
@@ -36,6 +37,8 @@ class FacebookListener implements ListenerInterface
     private $loginPath;
     /** @var array */
     private $config;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * @param FacebookLoginManager                  $loginManager
@@ -45,6 +48,7 @@ class FacebookListener implements ListenerInterface
      * @param AuthenticationFailureHandlerInterface $failureHandler
      * @param string                                $loginPath
      * @param array                                 $config
+     * @param LoggerInterface                       $logger
      */
     public function __construct(
         FacebookLoginManager $loginManager,
@@ -53,7 +57,8 @@ class FacebookListener implements ListenerInterface
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
         $loginPath,
-        array $config
+        array $config,
+        LoggerInterface $logger = null
     ) {
         $this->loginManager = $loginManager;
         $this->requestContext = $requestContext;
@@ -62,6 +67,7 @@ class FacebookListener implements ListenerInterface
         $this->failureHandler = $failureHandler;
         $this->loginPath = $loginPath;
         $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
@@ -107,15 +113,19 @@ class FacebookListener implements ListenerInterface
 
     private function onFailure(Request $request, FacebookApiException $failed)
     {
-        $response = $this->failureHandler->onAuthenticationFailure($request, new AuthenticationException($failed->getMessage()));
+        if (null !== $this->logger) {
+            $this->logger->info(sprintf('Authentication request failed: %s', $failed->getMessage()));
+        }
 
-        return $response;
+        return $this->failureHandler->onAuthenticationFailure($request, new AuthenticationException($failed->getMessage()));
     }
 
     private function onSuccess(Request $request, TokenInterface $token)
     {
-        $response = $this->successHandler->onAuthenticationSuccess($request, $token);
+        if (null !== $this->logger) {
+            $this->logger->info(sprintf('User "%s" has been authenticated successfully', $token->getUsername()));
+        }
 
-        return $response;
+        return $this->successHandler->onAuthenticationSuccess($request, $token);
     }
 }
