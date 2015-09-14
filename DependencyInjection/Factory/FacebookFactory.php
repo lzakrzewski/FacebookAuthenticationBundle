@@ -6,6 +6,7 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityF
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 
 class FacebookFactory implements SecurityFactoryInterface
@@ -45,6 +46,7 @@ class FacebookFactory implements SecurityFactoryInterface
         $listener->replaceArgument(4, new Reference($this->createAuthenticationFailureHandler($container, $id, $config)));
         $listener->replaceArgument(5, $config['facebook_login_path']);
 
+        $container->setParameter('lucaszz_facebook.facebook_login_path', $config['facebook_login_path']);
         $container->setDefinition($listenerId, $listener);
 
         return array($providerId, $listenerId, $defaultEntryPoint);

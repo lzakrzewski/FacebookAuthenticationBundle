@@ -11,6 +11,8 @@
 
         <service id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" class="Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi" >
             <argument type="service" id="lucaszz_facebook_authentication.guzzle"/>
+            <argument>%lucaszz_facebook.facebook_login_path%</argument>
+            <argument>%lucaszz_facebook_authentication.config%</argument>
         </service>
 
         <service id="lucaszz_facebook_authentication.model.facebook_users" class="Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers" >
