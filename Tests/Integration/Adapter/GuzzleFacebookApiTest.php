@@ -3,6 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\Response;
@@ -12,6 +13,7 @@ use GuzzleHttp\Subscriber\Mock;
 use Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
+/** @todo asserts on logs */
 class GuzzleFacebookApiTest extends IntegrationTestCase
 {
     /** @var GuzzleFacebookApi */
@@ -24,9 +26,9 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     /**
      * @test
      */
-    public function it_requests_for_access_token()
+    public function it_requests_for_access_token_successfully()
     {
-        $this->mockSuccessfulResponse();
+        $this->thereIsSuccessfullFacebookApiResponse();
 
         $accessToken = $this->adapter->accessToken('correct-code');
 
@@ -36,10 +38,84 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
 
     /**
      * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
      */
-    public function it_can_get_me_data()
+    public function it_fails_when_unable_to_parse_token_from_response_during_requesting_for_access_token()
     {
-        //$this->adapter->me($this->accessToken());
+        $this->thereIsFacebookApiResponseWithWrongToken();
+
+        $this->adapter->accessToken('correct-code');
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
+     */
+    public function it_fails_when_facebook_api_throws_an_exception_during_requesting_for_access_token()
+    {
+        $this->thereIsFacebookApiException();
+
+        $this->adapter->accessToken('correct-code');
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
+     */
+    public function it_fails_when_facebook_api_returns_unsuccessful_response_during_requesting_for_access_token()
+    {
+        $this->thereIsFacebookApiUnsuccessfulResponse();
+
+        $this->adapter->accessToken('correct-code');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_retrieve_me_fields_successfully()
+    {
+        $fields = $this->adapter->me($this->accessToken());
+
+        $this->assertThatRequiredMeFieldsExists($fields);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
+     */
+    public function it_fails_when_unable_to_parse_json_response_during_retrieving_me_fields()
+    {
+        $this->thereIsFacebookApiResponseWithWrongJson();
+
+        $this->adapter->me($this->accessToken());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
+     */
+    public function it_fails_when_facebook_api_throws_an_exception_during_retrieving_me_fields()
+    {
+        $this->thereIsFacebookApiException();
+
+        $this->adapter->me($this->accessToken());
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException
+     */
+    public function it_fails_when_facebook_api_returns_me_without_required_fields()
+    {
+        $this->thereIsFacebookApiWithoutRequiredMeFields();
+
+        $this->adapter->me($this->accessToken());
     }
 
     /**
@@ -61,24 +137,50 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
      */
     protected function tearDown()
     {
-        $this->adapter      = null;
+        $this->adapter = null;
         $this->guzzleClient = null;
-        $this->history      = null;
+        $this->history = null;
 
         parent::tearDown();
     }
 
-    private function mockSuccessfulResponse()
+    private function thereIsSuccessfullFacebookApiResponse()
     {
         $body = array(
-            "access_token" => "access-token",
-            "expires" => "5179907"
+            'access_token' => 'access-token',
+            'expires' => (string) (time() + 100),
         );
 
-        $mock = new Mock();
-        $mock->addResponse(new Response(200, [], Stream::factory(http_build_query($body))));
+        $this->mockResponse(200, http_build_query($body));
+    }
 
-        $this->container->get('lucaszz_facebook_authentication.guzzle')->getEmitter()->attach($mock);
+    private function thereIsFacebookApiResponseWithWrongToken()
+    {
+        $body = array(
+            'xyz' => 'abcd',
+            'expires' => (string) (time() + 100),
+        );
+
+        $this->mockResponse(200, http_build_query($body));
+    }
+
+    private function thereIsFacebookApiUnsuccessfulResponse()
+    {
+    }
+
+    private function thereIsFacebookApiResponseWithWrongJson()
+    {
+        $this->mockResponse(200, 'xyz');
+    }
+
+    private function thereIsFacebookApiWithoutRequiredMeFields()
+    {
+        $this->mockResponse(200, json_encode(array('id' => '12345', 'name' => 'xyz')));
+    }
+
+    private function thereIsFacebookApiException()
+    {
+        $this->mockResponse(500);
     }
 
     private function accessToken()
@@ -86,11 +188,11 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
         $dir = __DIR__.'/../accessToken';
         $files = scandir($dir, SCANDIR_SORT_DESCENDING);
 
-        $file = $dir . '/' . $files[0];
+        $file = $dir.'/'.$files[0];
 
-        if($f = fopen($file, 'r')){
-            $accessToken = fgets($f);
-            fclose($f);
+        if ($resource = fopen($file, 'r')) {
+            $accessToken = fgets($resource);
+            fclose($resource);
 
             return $accessToken;
         }
@@ -103,9 +205,9 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
         $request = new Request('GET', 'https://graph.facebook.com/oauth/access_token');
         $query = $request->getQuery();
 
-        $query->set('client_id', 'xxxxxxxx');
+        $query->set('client_id', '1234');
         $query->set('redirect_uri', 'http://localhost/facebook/login');
-        $query->set('client_secret', 'xxxxxxx');
+        $query->set('client_secret', 'secret');
         $query->set('code', 'correct-code');
 
         return $request;
@@ -115,5 +217,29 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->assertEquals($expectedRequest->getMethod(), $request->getMethod());
         $this->assertEquals($expectedRequest->getUrl(), $request->getUrl());
+    }
+
+    private function assertThatRequiredMeFieldsExists(array $fields)
+    {
+        $this->assertArrayHasKey('id', $fields);
+        $this->assertNotNull($fields['id']);
+
+        $this->assertArrayHasKey('email', $fields);
+        $this->assertNotNull($fields['email']);
+
+        $this->assertArrayHasKey('name', $fields);
+        $this->assertNotNull($fields['name']);
+    }
+
+    private function mockResponse($status, $body = null)
+    {
+        $mock = new Mock();
+        if ($status === 200) {
+            $mock->addResponse(new Response($status, [], ($body === null) ? null : Stream::factory($body)));
+        } else {
+            $mock->addException(new RequestException('Exception', new Request('GET', 'http://graph.facebook.com/xyz')));
+        }
+
+        $this->container->get('lucaszz_facebook_authentication.guzzle')->getEmitter()->attach($mock);
     }
 }

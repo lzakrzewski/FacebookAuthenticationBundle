@@ -4,16 +4,12 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
-use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 /**
  * @todo test case for api exception
  */
 class AuthenticationTest extends IntegrationTestCase
 {
-    /** @var DebugLoggerInterface */
-    private $logger;
-
     /**
      * @test
      */
@@ -93,26 +89,6 @@ class AuthenticationTest extends IntegrationTestCase
         $this->fillAndSubmitLoginForm('wrong-username', 'test1');
 
         $this->assertIsNotAuthorizedAsUser();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->logger = $this->container->get('logger');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
-    {
-        $this->logger = null;
-
-        parent::tearDown();
     }
 
     private function fillAndSubmitLoginForm($username, $password)

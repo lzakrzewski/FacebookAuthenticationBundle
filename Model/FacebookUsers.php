@@ -34,8 +34,9 @@ class FacebookUsers
         }
 
         $user->setUsername($fields['name']);
-        $user->setEnabled(true);
         $user->setEmail($fields['email']);
+
+        $user->setEnabled(true);
         $user->setPassword(uniqid());
 
         $this->users->updateUser($user);

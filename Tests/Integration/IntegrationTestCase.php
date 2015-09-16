@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 abstract class IntegrationTestCase extends BaseWebTestCase
@@ -23,6 +24,8 @@ abstract class IntegrationTestCase extends BaseWebTestCase
     private $entityManager;
     /** @var Crawler */
     protected $crawler;
+    /** @var DebugLoggerInterface */
+    protected $logger;
 
     /**
      * {@inheritdoc}
@@ -34,6 +37,7 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->config = $this->container->getParameter('lucaszz_facebook_authentication.config');
         $this->router = $this->container->get('router');
         $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $this->logger = $this->container->get('logger');
 
         $this->purgeDatabase();
     }
@@ -79,6 +83,7 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->container = null;
         $this->router = null;
         $this->entityManager = null;
+        $this->logger = null;
 
         parent::tearDown();
     }
