@@ -9,7 +9,7 @@ Target: Keep it minimalistic and use existing components from symfony2 and FosUs
 - [x] Move config to xml
 - [x] Logs for AuthenticationListener
 - [x] Implement GuzzleFacebookApi
-- [ ] Add scopes to config
+- [x] Add scopes to config
 - [ ] Add events for deep customize bundle
 - [ ] Readme
 - [ ] Travis for static analysis
