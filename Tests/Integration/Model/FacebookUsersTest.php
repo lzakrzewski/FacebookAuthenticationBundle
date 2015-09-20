@@ -3,9 +3,9 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
 
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\DatabaseTestCase;
 
-class FacebookUsersTest extends IntegrationTestCase
+class FacebookUsersTest extends DatabaseTestCase
 {
     /** @var FacebookUsers */
     private $users;

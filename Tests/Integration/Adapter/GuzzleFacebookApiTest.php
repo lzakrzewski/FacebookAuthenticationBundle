@@ -13,7 +13,6 @@ use GuzzleHttp\Subscriber\Mock;
 use Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
-/** @todo asserts on logs */
 class GuzzleFacebookApiTest extends IntegrationTestCase
 {
     /** @var GuzzleFacebookApi */
@@ -45,7 +44,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiResponseWithWrongToken();
 
-        $this->adapter->accessToken('correct-code');
+        try {
+            $this->adapter->accessToken('correct-code');
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('Unable to get access token from response');
+
+            throw $e;
+        }
     }
 
     /**
@@ -57,7 +62,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiException();
 
-        $this->adapter->accessToken('correct-code');
+        try {
+            $this->adapter->accessToken('correct-code');
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('An error with facebook graph api occurred');
+
+            throw $e;
+        }
     }
 
     /**
@@ -69,7 +80,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiUnsuccessfulResponse();
 
-        $this->adapter->accessToken('correct-code');
+        try {
+            $this->adapter->accessToken('correct-code');
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('An error with facebook graph api occurred');
+
+            throw $e;
+        }
     }
 
     /**
@@ -91,7 +108,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiResponseWithWrongJson();
 
-        $this->adapter->me($this->accessToken());
+        try {
+            $this->adapter->me($this->accessToken());
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('Facebook graph api response body is not in JSON format');
+
+            throw $e;
+        }
     }
 
     /**
@@ -103,7 +126,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiException();
 
-        $this->adapter->me($this->accessToken());
+        try {
+            $this->adapter->me($this->accessToken());
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('An error with facebook graph api occurred');
+
+            throw $e;
+        }
     }
 
     /**
@@ -115,7 +144,13 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
     {
         $this->thereIsFacebookApiWithoutRequiredMeFields();
 
-        $this->adapter->me($this->accessToken());
+        try {
+            $this->adapter->me($this->accessToken());
+        } catch (\Exception $e) {
+            $this->assertThatLogWithMessageWasCreated('Facebook graph api should return response with all required fields');
+
+            throw $e;
+        }
     }
 
     /**

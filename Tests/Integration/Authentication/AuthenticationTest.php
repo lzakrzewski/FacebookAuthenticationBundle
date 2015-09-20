@@ -3,12 +3,9 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\DatabaseTestCase;
 
-/**
- * @todo test case for api exception
- */
-class AuthenticationTest extends IntegrationTestCase
+class AuthenticationTest extends DatabaseTestCase
 {
     /**
      * @test
@@ -126,18 +123,5 @@ class AuthenticationTest extends IntegrationTestCase
         parse_str($parsedUrl['query'], $parsedQuery);
 
         return $parsedQuery;
-    }
-
-    private function assertThatLogWithMessageWasCreated($expectedMessage)
-    {
-        $logWasCreated = false;
-        foreach ($this->logger->getLogs() as $log) {
-            if (false !== strpos($log['message'], $expectedMessage)) {
-                $logWasCreated = true;
-                break;
-            }
-        }
-
-        $this->assertTrue($logWasCreated);
     }
 }

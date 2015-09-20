@@ -2,15 +2,14 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration;
 
-use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-abstract class IntegrationTestCase extends BaseWebTestCase
+abstract class IntegrationTestCase extends WebTestCase
 {
     /** @var ContainerInterface */
     protected $container;
@@ -20,8 +19,6 @@ abstract class IntegrationTestCase extends BaseWebTestCase
     protected $config;
     /** @var RouterInterface */
     private $router;
-    /** @var EntityManager */
-    private $entityManager;
     /** @var Crawler */
     protected $crawler;
     /** @var DebugLoggerInterface */
@@ -36,15 +33,7 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->container = $this->client->getContainer();
         $this->config = $this->container->getParameter('lucaszz_facebook_authentication.config');
         $this->router = $this->container->get('router');
-        $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $this->logger = $this->container->get('logger');
-
-        $this->purgeDatabase();
-    }
-
-    protected function entityManager()
-    {
-        return $this->entityManager;
     }
 
     protected function visit($url)
@@ -57,22 +46,6 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->visit($this->router->generate($routeName, $parameters));
     }
 
-    protected function user($username, $password, $facebookId = 12456)
-    {
-        $user = new TestUser();
-
-        $user->setPlainPassword($password);
-        $user->setUsername($username);
-        $user->setEmail('john@example.com');
-        $user->setEnabled(true);
-        $user->setFacebookId($facebookId);
-
-        $this->entityManager()->persist($user);
-        $this->entityManager()->flush();
-
-        return $user;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -82,18 +55,21 @@ abstract class IntegrationTestCase extends BaseWebTestCase
         $this->config = null;
         $this->container = null;
         $this->router = null;
-        $this->entityManager = null;
         $this->logger = null;
 
         parent::tearDown();
     }
 
-    private function purgeDatabase()
+    protected function assertThatLogWithMessageWasCreated($expectedMessage)
     {
-        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
-        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
+        $logWasCreated = false;
+        foreach ($this->logger->getLogs() as $log) {
+            if (false !== strpos($log['message'], $expectedMessage)) {
+                $logWasCreated = true;
+                break;
+            }
+        }
 
-        $connection = $this->entityManager->getConnection();
-        $connection->exec(sprintf('DELETE FROM %s', $tableName));
+        $this->assertTrue($logWasCreated);
     }
 }
