@@ -16,9 +16,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class FacebookListener implements ListenerInterface
 {
     const LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
@@ -99,7 +96,6 @@ class FacebookListener implements ListenerInterface
         $event->setResponse($response);
     }
 
-    /** @todo configurable scopes */
     private function loginDialogUrl()
     {
         $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->loginPath);
@@ -107,7 +103,7 @@ class FacebookListener implements ListenerInterface
         return self::LOGIN_DIALOG_URL.'?'.http_build_query(array(
             'client_id' => $this->config['app_id'],
             'redirect_uri' => $redirectUri,
-            'scope' => 'user_birthday, public_profile, email',
+            'scope' => implode(', ', $this->config['scope']),
         ));
     }
 

@@ -32,7 +32,7 @@ class FacebookFactory implements SecurityFactoryInterface
     );
 
     /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * {@inheritdoc}
      */
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
@@ -80,18 +80,24 @@ class FacebookFactory implements SecurityFactoryInterface
         return $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPosition()
     {
         return 'pre_auth';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getKey()
     {
         return 'lucaszz_facebook';
     }
 
     /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * {@inheritdoc}
      */
     public function addConfiguration(NodeDefinition $node)
     {
