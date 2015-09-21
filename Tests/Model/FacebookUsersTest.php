@@ -4,6 +4,7 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
 
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Lucaszz\FacebookAuthenticationBundle\Events;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
 use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
 use Prophecy\Argument;
@@ -27,8 +28,12 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
         $meFields = array('id' => 10203138199203984, 'name' => 'Facebook user', 'email' => 'facebook@example.com');
 
         $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn(null);
-        $this->userManager->createUser()->willReturn($this->testUser());
-        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))->shouldBeCalled();
+        $this->userManager->createUser()->willReturn(new TestUser());
+        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))
+            ->shouldBeCalled();
+
+        $this->dispatcher->dispatch(Events::USER_CREATED, Argument::type('Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent'))
+            ->shouldBeCalled();
 
         $user = $this->facebookUsers->get($meFields);
 
@@ -40,17 +45,35 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
      */
     public function it_gets_existing_user_from_fields_and_refreshes_user_data()
     {
-        $existingUser = $this->testUser(10203138199203984, 'Old facebook username', 'old@email.com');
-
+        $existingUser = $this->user(10203138199203984, 'Old facebook username', 'old@email.com');
         $meFields = array('id' => 10203138199203984, 'name' => 'New facebook username', 'email' => 'newfacebook@example.com');
 
         $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn($existingUser);
-        $this->userManager->createUser()->willReturn();
-        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))->shouldBeCalled();
+        $this->userManager->createUser()->shouldNotBeCalled();
+        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))
+            ->shouldBeCalled();
 
-        $user = $this->facebookUsers->get($this->meFields(10203138199203984, 'New facebook username', 'newfacebook@example.com'));
+        $this->dispatcher->dispatch(Events::USER_UPDATED, Argument::type('Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent'))
+            ->shouldBeCalled();
+
+        $user = $this->facebookUsers->get($meFields);
 
         $this->assertFacebookUser(10203138199203984, 'New facebook username', 'newfacebook@example.com', $user);
+    }
+
+    /**
+     * @test
+     * @expectedException \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUserException
+     */
+    public function it_fails_when_user_is_not_instance_of_facebook_user()
+    {
+        $meFields = array('id' => 10203138199203984, 'name' => 'Facebook user', 'email' => 'facebook@example.com');
+        $wrongUser = $this->prophesize('\FOS\UserBundle\Model\UserInterface');
+
+        $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn(null);
+        $this->userManager->createUser()->willReturn($wrongUser->reveal());
+
+        $this->facebookUsers->get($meFields);
     }
 
     /**
@@ -78,21 +101,16 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    private function meFields($facebookId, $userName, $email)
+    private function user($facebookId, $name, $email)
     {
-        $fields = json_decode('{ "id": "123456789", "birthday": "03/18/1976", "email": "test\u0040example.com", "first_name": "DolorAmit", "gender": "male", "last_name": "LoremIpsum", "link": "https://www.facebook.com/app_scoped_user_id/123456789/", "locale": "en_US", "name": "DolorAmit LoremIpsum", "timezone": 2, "updated_time": "2014-11-30T12:42:08+0000", "verified": true }',
-            true);
+        $testUser = new TestUser();
+        $testUser->setFacebookId($facebookId);
+        $testUser->setUsername($name);
+        $testUser->setEmail($email);
+        $testUser->setEnabled(true);
+        $testUser->setPassword(uniqid());
 
-        $fields['id'] = $facebookId;
-        $fields['name'] = $userName;
-        $fields['email'] = $email;
-
-        return $fields;
-    }
-
-    private function testUser()
-    {
-        return new TestUser();
+        return $testUser;
     }
 
     private function assertFacebookUser($facebookId, $name, $email, UserInterface $user)

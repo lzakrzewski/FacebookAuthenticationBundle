@@ -49,7 +49,7 @@ class FacebookUsers
         $user = $this->users->createUser();
 
         if (!$user instanceof FacebookUser) {
-            throw new FacebookUserException('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($user));
+            throw new FacebookUserException(sprintf('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($user)));
         }
 
         $user->setFacebookId($fields['id']);

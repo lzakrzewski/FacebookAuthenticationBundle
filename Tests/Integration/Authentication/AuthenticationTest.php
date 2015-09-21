@@ -2,11 +2,16 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
+use Doctrine\ORM\EntityManager;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\DatabaseTestCase;
+use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
 
-class AuthenticationTest extends DatabaseTestCase
+class AuthenticationTest extends IntegrationTestCase
 {
+    /** @var EntityManager */
+    private $entityManager;
+
     /**
      * @test
      */
@@ -88,6 +93,28 @@ class AuthenticationTest extends DatabaseTestCase
         $this->assertIsNotAuthorizedAsUser();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+
+        $this->purgeDatabase();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        $this->entityManager = null;
+
+        parent::tearDown();
+    }
+
     private function fillAndSubmitLoginForm($username, $password)
     {
         $form = $this->crawler->selectButton('_submit')->form();
@@ -123,5 +150,30 @@ class AuthenticationTest extends DatabaseTestCase
         parse_str($parsedUrl['query'], $parsedQuery);
 
         return $parsedQuery;
+    }
+
+    private function user($username, $password, $facebookId = 12456)
+    {
+        $user = new TestUser();
+
+        $user->setPlainPassword($password);
+        $user->setUsername($username);
+        $user->setEmail('john@example.com');
+        $user->setEnabled(true);
+        $user->setFacebookId($facebookId);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    private function purgeDatabase()
+    {
+        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
+        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
+
+        $connection = $this->entityManager->getConnection();
+        $connection->exec(sprintf('DELETE FROM %s', $tableName));
     }
 }

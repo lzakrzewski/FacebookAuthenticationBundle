@@ -10,8 +10,7 @@ Target: Keep it minimalistic and use existing components from symfony2 and FosUs
 - [x] Logs for AuthenticationListener
 - [x] Implement GuzzleFacebookApi
 - [x] Add scopes to config
-- [ ] Extract testsuite for unit tests
-- [ ] Add events for deep customize bundle
+- [x] Add events for deep customize bundle
 - [ ] Readme
 - [ ] Travis for static analysis
 - [ ] Travis for unit tests
