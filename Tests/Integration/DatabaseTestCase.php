@@ -3,6 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration;
 
 use Doctrine\ORM\EntityManager;
+use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
 
 abstract class DatabaseTestCase extends IntegrationTestCase
 {

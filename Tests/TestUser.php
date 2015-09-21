@@ -1,16 +1,16 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests;
 
-use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Entity\User;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="test_user")
  */
-class TestUser extends BaseUser implements FacebookUser
+class TestUser extends User implements FacebookUser
 {
     /**
      * @ORM\Id

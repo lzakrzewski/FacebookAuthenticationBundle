@@ -19,6 +19,7 @@
 
         <service id="lucaszz_facebook_authentication.model.facebook_users" class="Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers" >
             <argument type="service" id="fos_user.user_manager"/>
+            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="lucaszz_facebook_authentication.security.facebook_login_manager" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager" >

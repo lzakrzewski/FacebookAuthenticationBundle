@@ -3,41 +3,74 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Model;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\TestUser;
+use Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent;
+use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Lucaszz\FacebookAuthenticationBundle\Events;
 
-/**
- * @todo add events
- */
 class FacebookUsers
 {
     /** @var UserManagerInterface */
     private $users;
+    /** @var EventDispatcherInterface */
+    private $dispatcher;
 
     /**
-     * @param UserManagerInterface $users
+     * @param UserManagerInterface     $users
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(UserManagerInterface $users)
+    public function __construct(UserManagerInterface $users, EventDispatcherInterface $dispatcher)
     {
         $this->users = $users;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $fields
+     *
+     * @throws FacebookUserException
+     *
+     * @return UserInterface
      */
     public function get(array $fields)
     {
         $user = $this->users->findUserBy(array('facebookId' => $fields['id']));
 
         if (null === $user) {
-            $user = new TestUser();
-            $user->setFacebookId($fields['id']);
+            return $this->createUser($fields);
         }
 
+        return $this->updateUser($user, $fields);
+    }
+
+    private function createUser(array $fields)
+    {
+        /** @var UserInterface $user */
+        $user = $this->users->createUser();
+
+        if (!$user instanceof FacebookUser) {
+            throw new FacebookUserException('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($user));
+        }
+
+        $user->setFacebookId($fields['id']);
+        $user->setUsername($fields['name']);
+        $user->setEmail($fields['email']);
+        $user->setEnabled(true);
+        $user->setPassword(uniqid());
+
+        $this->dispatcher->dispatch(Events::USER_CREATED, new FacebookUserEvent($user, $fields));
+
+        $this->users->updateUser($user);
+
+        return $user;
+    }
+
+    private function updateUser(UserInterface $user, array $fields)
+    {
         $user->setUsername($fields['name']);
         $user->setEmail($fields['email']);
 
-        $user->setEnabled(true);
-        $user->setPassword(uniqid());
+        $this->dispatcher->dispatch(Events::USER_UPDATED, new FacebookUserEvent($user, $fields));
 
         $this->users->updateUser($user);
 
