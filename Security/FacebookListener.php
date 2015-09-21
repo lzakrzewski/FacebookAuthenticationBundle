@@ -3,12 +3,12 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
+use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -18,12 +18,10 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 class FacebookListener implements ListenerInterface
 {
-    const LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
-
     /** @var FacebookLoginManager */
     private $loginManager;
-    /** @var RequestContext */
-    private $requestContext;
+    /** @var FacebookUrls */
+    private $urls;
     /** @var SecurityContextInterface */
     private $securityContext;
     /** @var AuthenticationSuccessHandlerInterface */
@@ -32,38 +30,33 @@ class FacebookListener implements ListenerInterface
     private $failureHandler;
     /** @var string */
     private $loginPath;
-    /** @var array */
-    private $config;
     /** @var LoggerInterface */
     private $logger;
 
     /**
      * @param FacebookLoginManager                  $loginManager
-     * @param RequestContext                        $requestContext
+     * @param FacebookUrls                          $urls
      * @param SecurityContextInterface              $securityContext
      * @param AuthenticationSuccessHandlerInterface $successHandler
      * @param AuthenticationFailureHandlerInterface $failureHandler
      * @param string                                $loginPath
-     * @param array                                 $config
      * @param LoggerInterface                       $logger
      */
     public function __construct(
         FacebookLoginManager $loginManager,
-        RequestContext $requestContext,
+        FacebookUrls $urls,
         SecurityContextInterface $securityContext,
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
         $loginPath,
-        array $config,
         LoggerInterface $logger = null
     ) {
         $this->loginManager = $loginManager;
-        $this->requestContext = $requestContext;
+        $this->urls = $urls;
         $this->securityContext = $securityContext;
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
         $this->loginPath = $loginPath;
-        $this->config = $config;
         $this->logger = $logger;
     }
 
@@ -80,7 +73,7 @@ class FacebookListener implements ListenerInterface
         $request = $event->getRequest();
 
         if (null === $code = $request->query->get('code')) {
-            $event->setResponse(new RedirectResponse($this->loginDialogUrl()));
+            $event->setResponse(new RedirectResponse($this->urls->loginDialogUrl()));
 
             return;
         }
@@ -94,17 +87,6 @@ class FacebookListener implements ListenerInterface
         }
 
         $event->setResponse($response);
-    }
-
-    private function loginDialogUrl()
-    {
-        $redirectUri = sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->loginPath);
-
-        return self::LOGIN_DIALOG_URL.'?'.http_build_query(array(
-            'client_id' => $this->config['app_id'],
-            'redirect_uri' => $redirectUri,
-            'scope' => implode(', ', $this->config['scope']),
-        ));
     }
 
     private function onFailure(Request $request, FacebookApiException $failed)

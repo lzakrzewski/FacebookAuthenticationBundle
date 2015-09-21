@@ -5,41 +5,31 @@ namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\Response;
 use GuzzleHttp\Message\ResponseInterface;
+use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\RequestContext;
 
 class GuzzleFacebookApi implements FacebookApi
 {
-    const ME_URL = 'https://graph.facebook.com/me';
-    const ACCESS_TOKEN_URL = 'https://graph.facebook.com/oauth/access_token';
-
-    const SUCCESSFUL = 200;
-
     /** @var ClientInterface */
     private $client;
-    /** @var RequestContext */
-    private $requestContext;
+    /** @var FacebookUrls */
+    private $urls;
     /** @var array */
     private $config;
-    /** @var string */
-    private $loginPath;
     /** @var LoggerInterface|null */
     private $logger;
 
     /**
      * @param ClientInterface      $client
-     * @param RequestContext       $requestContext
-     * @param string               $loginPath
+     * @param FacebookUrls         $urls
      * @param array                $config
      * @param LoggerInterface|null $logger
      */
-    public function __construct(ClientInterface $client, RequestContext $requestContext, $loginPath, array $config, LoggerInterface $logger = null)
+    public function __construct(ClientInterface $client, FacebookUrls $urls, array $config, LoggerInterface $logger = null)
     {
         $this->client = $client;
-        $this->requestContext = $requestContext;
-        $this->loginPath = $loginPath;
+        $this->urls = $urls;
         $this->config = $config;
         $this->logger = $logger;
     }
@@ -91,18 +81,13 @@ class GuzzleFacebookApi implements FacebookApi
         return $fields;
     }
 
-    private function redirectUri()
-    {
-        return sprintf('%s://%s%s', $this->requestContext->getScheme(), $this->requestContext->getHost(), $this->loginPath);
-    }
-
     private function accessTokenRequest($code)
     {
-        $request = $this->client->createRequest('GET', self::ACCESS_TOKEN_URL);
+        $request = $this->client->createRequest('GET', FacebookApi::GRAPH_API_ACCESS_TOKEN_URL);
         $query = $request->getQuery();
 
         $query->set('client_id', $this->config['app_id']);
-        $query->set('redirect_uri', $this->redirectUri());
+        $query->set('redirect_uri', $this->urls->redirectUri());
         $query->set('client_secret', $this->config['app_secret']);
         $query->set('code', $code);
 
@@ -111,7 +96,7 @@ class GuzzleFacebookApi implements FacebookApi
 
     private function meRequest($accessToken)
     {
-        $request = $this->client->createRequest('GET', self::ME_URL);
+        $request = $this->client->createRequest('GET', FacebookApi::GRAPH_API_ME_URL);
         $query = $request->getQuery();
 
         $query->set('access_token', $accessToken);
