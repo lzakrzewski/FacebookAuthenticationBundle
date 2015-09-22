@@ -22,7 +22,7 @@ class TestUser extends User implements FacebookUser
     /**
      * @ORM\Column(type="bigint")
      */
-    protected $facebookId;
+    private $facebookId;
 
     /**
      * {@inheritdoc}

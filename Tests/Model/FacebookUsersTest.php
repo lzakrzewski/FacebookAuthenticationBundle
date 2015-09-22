@@ -4,6 +4,7 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
 
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
 use Lucaszz\FacebookAuthenticationBundle\Events;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
 use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
@@ -13,12 +14,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class FacebookUsersTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FacebookUsers */
-    private $facebookUsers;
     /** @var ObjectProphecy|UserManagerInterface */
     private $userManager;
     /** @var ObjectProphecy|EventDispatcherInterface */
     private $dispatcher;
+    /** @var ObjectProphecy|FacebookIdPropertyName*/
+    private $propertyName;
+    /** @var FacebookUsers */
+    private $facebookUsers;
 
     /**
      * @test
@@ -49,7 +52,7 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
         $meFields = array('id' => 10203138199203984, 'name' => 'New facebook username', 'email' => 'newfacebook@example.com');
 
         $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn($existingUser);
-        $this->userManager->createUser()->shouldNotBeCalled();
+        $this->userManager->createUser()->willReturn(new TestUser());
         $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))
             ->shouldBeCalled();
 
@@ -85,8 +88,11 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
 
         $this->userManager = $this->prophesize('\FOS\UserBundle\Model\UserManagerInterface');
         $this->dispatcher = $this->prophesize('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->propertyName = $this->prophesize('\Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName');
 
-        $this->facebookUsers = new FacebookUsers($this->userManager->reveal(), $this->dispatcher->reveal());
+        $this->propertyName->get(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))->willReturn('facebookId');
+
+        $this->facebookUsers = new FacebookUsers($this->userManager->reveal(), $this->propertyName->reveal(), $this->dispatcher->reveal());
     }
 
     /**
@@ -95,6 +101,7 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->userManager = null;
+        $this->propertyName = null;
         $this->dispatcher = null;
         $this->facebookUsers = null;
 

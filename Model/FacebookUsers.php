@@ -3,6 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Model;
 
 use FOS\UserBundle\Model\UserManagerInterface;
+use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
 use Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -12,16 +13,20 @@ class FacebookUsers
 {
     /** @var UserManagerInterface */
     private $users;
+    /** @var FacebookIdPropertyName */
+    private $propertyName;
     /** @var EventDispatcherInterface */
     private $dispatcher;
 
     /**
      * @param UserManagerInterface     $users
+     * @param FacebookIdPropertyName   $propertyName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(UserManagerInterface $users, EventDispatcherInterface $dispatcher)
+    public function __construct(UserManagerInterface $users, FacebookIdPropertyName $propertyName, EventDispatcherInterface $dispatcher)
     {
         $this->users = $users;
+        $this->propertyName = $propertyName;
         $this->dispatcher = $dispatcher;
     }
 
@@ -34,7 +39,7 @@ class FacebookUsers
      */
     public function get(array $fields)
     {
-        $user = $this->users->findUserBy(array('facebookId' => $fields['id']));
+        $user = $this->findUser($fields['id']);
 
         if (null === $user) {
             return $this->createUser($fields);
@@ -47,10 +52,6 @@ class FacebookUsers
     {
         /** @var UserInterface $user */
         $user = $this->users->createUser();
-
-        if (!$user instanceof FacebookUser) {
-            throw new FacebookUserException(sprintf('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($user)));
-        }
 
         $user->setFacebookId($fields['id']);
         $user->setUsername($fields['name']);
@@ -75,5 +76,18 @@ class FacebookUsers
         $this->users->updateUser($user);
 
         return $user;
+    }
+
+    private function findUser($userId)
+    {
+        $emptyUser = $this->users->createUser();
+
+        if (!$emptyUser instanceof FacebookUser) {
+            throw new FacebookUserException(sprintf('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($emptyUser)));
+        }
+
+        $propertyName = $this->propertyName->get($emptyUser);
+
+        return $this->users->findUserBy(array($propertyName => $userId));
     }
 }

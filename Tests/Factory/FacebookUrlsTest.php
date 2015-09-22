@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests\Factory;
 
 use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
 use Prophecy\Prophecy\ObjectProphecy;
