@@ -8,8 +8,6 @@ php:
 
 before_install:
   - composer self-update
-
-befor_script:
   - composer install
 
 script:
