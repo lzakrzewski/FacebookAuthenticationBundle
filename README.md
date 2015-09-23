@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle.svg)](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle)
+
 LucaszzFacebookAuthenticationBundle
 ======
 
@@ -15,7 +17,7 @@ Target: Keep it minimalistic and use existing components from Symfony2 and FOSUs
 - [ ] PHP 5.3 compatibility
 - [ ] Readme
 - [ ] Travis for static analysis
-- [ ] Travis for unit tests
+- [x] Travis for unit tests
 
 ### Readme TODO
 - [ ] Introduction
