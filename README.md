@@ -14,7 +14,6 @@ Target: Keep it minimalistic and use existing components from Symfony2 and FOSUs
 - [x] Add scopes to config
 - [x] Add events for deep customize bundle
 - [x] Introduce facebook Id annotation
-- [ ] PHP 5.3 compatibility
 - [ ] Readme
 - [ ] Travis for static analysis
 - [x] Travis for unit tests
