@@ -1,0 +1,56 @@
+parameters:
+    kernel.secret: ThisTokenIsNotSoSecretChangeIt
+
+framework:
+    test: ~
+    form:            ~
+    csrf_protection: ~
+    #TODO prepare PHP templates for tests and avoid require
+    templating:
+        engines: ['twig']
+    session:
+        storage_id: session.storage.mock_file
+    router:          { resource: "%kernel.root_dir%/routing.yml" }
+    profiler:
+        collect: false
+
+#Todo extract folder for fixtures
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        path:     %kernel.cache_dir%/facebook-sandbox.db
+
+    orm:
+        auto_mapping: true
+        mappings:
+            facebook_authentication_test:
+                type: annotation
+                prefix: Lucaszz\FacebookAuthenticationBundle\Tests
+                dir: "%kernel.root_dir%/../."
+                alias: FacebookAuthenticationTest
+                is_bundle: false
+
+fos_user:
+    service:
+        mailer: fos_user.mailer.fake
+    db_driver: orm
+    firewall_name: main
+    user_class: Lucaszz\FacebookAuthenticationBundle\Tests\TestUser
+
+#Todo try to introduce fake logger, and avoid require monolog for test
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+
+lucaszz_facebook_authentication:
+    app_id: 1234
+    app_secret: secret
+    scope: ["public_profile", "email", "user_birthday"]
+
+
+imports:
+    - { resource: security.yml }
+    - { resource: services.yml }
