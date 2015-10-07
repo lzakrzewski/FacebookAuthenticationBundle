@@ -220,10 +220,7 @@ class GuzzleFacebookApiTest extends IntegrationTestCase
 
     private function accessToken()
     {
-        $dir = __DIR__.'/../accessToken';
-        $files = scandir($dir, SCANDIR_SORT_DESCENDING);
-
-        $file = $dir.'/'.$files[0];
+        $file = 'https://gist.githubusercontent.com/Lucaszz/a36984dd6691ab53092d/raw/e1b3c9168f1ea0e4e29c1e659627a4732ba5ce85/accessToken_1440969823';
 
         if ($resource = fopen($file, 'r')) {
             $accessToken = fgets($resource);

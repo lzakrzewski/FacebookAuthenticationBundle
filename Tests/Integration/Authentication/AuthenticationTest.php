@@ -2,7 +2,9 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\SchemaTool;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
@@ -102,7 +104,7 @@ class AuthenticationTest extends IntegrationTestCase
 
         $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
 
-        $this->purgeDatabase();
+        $this->setupDatabase();
     }
 
     /**
@@ -168,12 +170,14 @@ class AuthenticationTest extends IntegrationTestCase
         return $user;
     }
 
-    private function purgeDatabase()
+    private function setupDatabase()
     {
-        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
-        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
-
-        $connection = $this->entityManager->getConnection();
-        $connection->exec(sprintf('DELETE FROM %s', $tableName));
+        $params = $this->entityManager->getConnection()->getParams();
+        $tmpConnection = DriverManager::getConnection($params);
+        $tmpConnection->getSchemaManager()->createDatabase($params['path']);
+        $schemaTool = new SchemaTool($this->entityManager);
+        $schemaTool->dropDatabase();
+        $class = '\Lucaszz\FacebookAuthenticationBundle\Tests\TestUser';
+        $schemaTool->createSchema(array($this->entityManager->getClassMetadata($class)));
     }
 }

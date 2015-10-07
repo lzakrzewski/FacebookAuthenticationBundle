@@ -27,6 +27,16 @@ abstract class IntegrationTestCase extends WebTestCase
     /**
      * {@inheritdoc}
      */
+    public static function getKernelClass()
+    {
+        include_once __DIR__.'/app/TestKernel.php';
+
+        return 'Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\TestKernel';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp()
     {
         $this->client = $this->createClient();
