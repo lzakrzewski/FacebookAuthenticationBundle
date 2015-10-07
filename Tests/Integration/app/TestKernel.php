@@ -56,6 +56,6 @@ class TestKernel extends Kernel
 
     private function tmpDir()
     {
-        return sys_get_temp_dir().'/lucaszz_facebook_authentication_test';
+        return sys_get_temp_dir().'/lucaszz_facebook_authentication_test/'.uniqid();
     }
 }
