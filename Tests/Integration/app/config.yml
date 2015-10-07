@@ -18,7 +18,7 @@ framework:
 doctrine:
     dbal:
         driver:   pdo_sqlite
-        path:     %kernel.cache_dir%/facebook-sandbox.db
+        path:     %kernel.cache_dir%/facebook-sandbox1.db
 
     orm:
         auto_mapping: true

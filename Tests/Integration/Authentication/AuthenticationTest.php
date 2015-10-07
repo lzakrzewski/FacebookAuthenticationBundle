@@ -177,7 +177,19 @@ class AuthenticationTest extends IntegrationTestCase
         $tmpConnection->getSchemaManager()->createDatabase($params['path']);
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->dropDatabase();
-        $class = '\Lucaszz\FacebookAuthenticationBundle\Tests\TestUser';
-        $schemaTool->createSchema(array($this->entityManager->getClassMetadata($class)));
+
+        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
+        $schemaTool->createSchema(array($this->entityManager->getClassMetadata($userModelClass)));
+
+        $this->purgeDatabase();
+    }
+
+    private function purgeDatabase()
+    {
+        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
+        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
+
+        $connection = $this->entityManager->getConnection();
+        $connection->exec(sprintf('DELETE FROM %s', $tableName));
     }
 }
