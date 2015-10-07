@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle.svg)](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle)
 
-LucaszzFacebookAuthenticationBundle
+FacebookAuthenticationBundle
 ======
 
 This bundle provides Facebook authentication for your Symfony2 app using the FOSUserBundle.
@@ -15,8 +15,10 @@ Target: Keep it minimalistic and use existing components from Symfony2 and FOSUs
 - [x] Add events for deep customize bundle
 - [x] Introduce facebook Id annotation
 - [ ] Readme
-- [ ] Travis for static analysis
 - [x] Travis for unit tests
+- [ ] Travis for integration test
+- [ ] Multi-version testing for symfony2
+- [ ] Upgrade FOS to 2.0@dev
 
 ### Readme TODO
 - [ ] Introduction
