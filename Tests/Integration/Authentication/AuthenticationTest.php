@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
-use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 
 class AuthenticationTest extends IntegrationTestCase
 {

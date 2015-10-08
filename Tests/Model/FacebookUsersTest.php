@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
 use Lucaszz\FacebookAuthenticationBundle\Events;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
-use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,7 +32,7 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
 
         $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn(null);
         $this->userManager->createUser()->willReturn(new TestUser());
-        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))
+        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser'))
             ->shouldBeCalled();
 
         $this->dispatcher->dispatch(Events::USER_CREATED, Argument::type('Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent'))
@@ -53,7 +53,7 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
 
         $this->userManager->findUserBy(array('facebookId' => $meFields['id']))->willReturn($existingUser);
         $this->userManager->createUser()->willReturn(new TestUser());
-        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))
+        $this->userManager->updateUser(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser'))
             ->shouldBeCalled();
 
         $this->dispatcher->dispatch(Events::USER_UPDATED, Argument::type('Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent'))
@@ -90,7 +90,7 @@ class FacebookUsersTest extends \PHPUnit_Framework_TestCase
         $this->dispatcher = $this->prophesize('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->propertyName = $this->prophesize('\Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName');
 
-        $this->propertyName->get(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\TestUser'))->willReturn('facebookId');
+        $this->propertyName->get(Argument::type('Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser'))->willReturn('facebookId');
 
         $this->facebookUsers = new FacebookUsers($this->userManager->reveal(), $this->propertyName->reveal(), $this->dispatcher->reveal());
     }

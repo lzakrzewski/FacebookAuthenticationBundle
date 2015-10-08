@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests\fixtures;
 
 use FOS\UserBundle\Model\User;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;

@@ -4,9 +4,9 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Annotation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
-use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
-use Lucaszz\FacebookAuthenticationBundle\Tests\TestUserWithFacebookIdAnnotation;
-use Lucaszz\FacebookAuthenticationBundle\Tests\WrongUser;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUserWithFacebookIdAnnotation;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\WrongUser;
 
 class FacebookIdPropertyNameTest extends \PHPUnit_Framework_TestCase
 {

@@ -14,18 +14,17 @@ framework:
     profiler:
         collect: false
 
-#Todo extract folder for fixtures
 doctrine:
     dbal:
         driver:   pdo_sqlite
-        path:     %kernel.cache_dir%/facebook-sandbox1.db
+        path:     %kernel.cache_dir%/facebook-sandbox.db
 
     orm:
         auto_mapping: true
         mappings:
             facebook_authentication_test:
                 type: annotation
-                prefix: Lucaszz\FacebookAuthenticationBundle\Tests
+                prefix: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures
                 dir: "%kernel.root_dir%/../."
                 alias: FacebookAuthenticationTest
                 is_bundle: false
@@ -35,7 +34,7 @@ fos_user:
         mailer: fos_user.mailer.fake
     db_driver: orm
     firewall_name: main
-    user_class: Lucaszz\FacebookAuthenticationBundle\Tests\TestUser
+    user_class: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser
 
 #Todo try to introduce fake logger, and avoid require monolog for test
 monolog:

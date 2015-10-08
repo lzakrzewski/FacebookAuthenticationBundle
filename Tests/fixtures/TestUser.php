@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests\fixtures;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User;

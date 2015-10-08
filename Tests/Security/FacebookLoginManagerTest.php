@@ -6,7 +6,7 @@ use FOS\UserBundle\Security\LoginManagerInterface;
 use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
 use Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager;
-use Lucaszz\FacebookAuthenticationBundle\Tests\TestUser;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
