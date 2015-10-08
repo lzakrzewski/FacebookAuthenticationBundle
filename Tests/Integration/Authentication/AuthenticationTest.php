@@ -180,16 +180,5 @@ class AuthenticationTest extends IntegrationTestCase
 
         $userModelClass = $this->container->getParameter('fos_user.model.user.class');
         $schemaTool->createSchema(array($this->entityManager->getClassMetadata($userModelClass)));
-
-        $this->purgeDatabase();
-    }
-
-    private function purgeDatabase()
-    {
-        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
-        $tableName = $this->entityManager->getClassMetadata($userModelClass)->getTableName();
-
-        $connection = $this->entityManager->getConnection();
-        $connection->exec(sprintf('DELETE FROM %s', $tableName));
     }
 }
