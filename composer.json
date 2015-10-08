@@ -26,7 +26,6 @@
         "symfony/security": "~2.7",
         "symfony/framework-bundle": "~2.7",
         "doctrine/doctrine-bundle": "~1.0",
-        "symfony/twig-bundle": "~2.7",
         "symfony/security-bundle": "~2.7"
     }
 }

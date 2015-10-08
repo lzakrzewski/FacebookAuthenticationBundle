@@ -7,7 +7,6 @@ use FOS\UserBundle\FOSUserBundle;
 use Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
-use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -22,7 +21,6 @@ class TestKernel extends Kernel
             new FrameworkBundle(),
             new DoctrineBundle(),
             new SecurityBundle(),
-            new TwigBundle(),
             new FOSUserBundle(),
             new LucaszzFacebookAuthenticationBundle(),
         );
