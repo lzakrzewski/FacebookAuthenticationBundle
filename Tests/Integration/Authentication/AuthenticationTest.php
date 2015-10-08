@@ -126,24 +126,12 @@ class AuthenticationTest extends IntegrationTestCase
 
     private function assertIsAuthorizedAsUser($username)
     {
-        $securityData = $this->securityData();
-
-        $this->assertEquals($username, $securityData['user']);
+        $this->assertEquals($username, $this->currentUserName());
     }
 
     private function assertIsNotAuthorizedAsUser()
     {
-        $securityData = $this->securityData();
-
-        $this->assertEquals('Symfony\Component\Security\Core\Authentication\Token\AnonymousToken', $securityData['token_class']);
-    }
-
-    private function securityData()
-    {
-        $this->client->enableProfiler();
-        $this->visitRoute('fos_user_security_login');
-
-        return unserialize($this->client->getProfile()->getCollector('security')->serialize());
+        $this->assertEquals('anon.', $this->currentUserName());
     }
 
     private function redirectResponseQuery()
@@ -181,4 +169,12 @@ class AuthenticationTest extends IntegrationTestCase
         $userModelClass = $this->container->getParameter('fos_user.model.user.class');
         $schemaTool->createSchema(array($this->entityManager->getClassMetadata($userModelClass)));
     }
+
+    private function currentUserName()
+    {
+        $this->visitRoute('fos_user_security_login');
+
+        return (string) $this->client->getContainer()->get('security.context')->getToken()->getUser();
+    }
 }
+

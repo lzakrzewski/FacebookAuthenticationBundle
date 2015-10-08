@@ -25,12 +25,8 @@ class FakeLogger extends AbstractLogger implements DebugLoggerInterface
     /** {@inheritdoc} */
     public function log($level, $message, array $context = array())
     {
-        //Todo: Try to avoid usage of profiler in tests
         static::$logs[] = array(
-            'priority' => $level,
-            'priorityName' => $level,
             'message' => $message,
-            'context' => array()
         );
     }
 }
