@@ -6,7 +6,6 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FOS\UserBundle\FOSUserBundle;
 use Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -23,7 +22,6 @@ class TestKernel extends Kernel
             new FrameworkBundle(),
             new DoctrineBundle(),
             new SecurityBundle(),
-            new MonologBundle(),
             new TwigBundle(),
             new FOSUserBundle(),
             new LucaszzFacebookAuthenticationBundle(),

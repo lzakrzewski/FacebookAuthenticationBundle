@@ -36,14 +36,6 @@ fos_user:
     firewall_name: main
     user_class: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser
 
-#Todo try to introduce fake logger, and avoid require monolog for test
-monolog:
-    handlers:
-        main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-
 lucaszz_facebook_authentication:
     app_id: 1234
     app_secret: secret

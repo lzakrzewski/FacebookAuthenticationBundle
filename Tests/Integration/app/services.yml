@@ -1,4 +1,7 @@
 services:
+    logger:
+        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\FakeLogger
+
     fos_user.mailer.fake:
         class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\FakeMailer
 
