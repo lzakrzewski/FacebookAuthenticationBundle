@@ -16,7 +16,7 @@ Target: Keep it minimalistic and use existing components from Symfony2 and FOSUs
 - [x] Introduce facebook Id annotation
 - [ ] Readme
 - [x] Travis for unit tests
-- [ ] Travis for integration test
+- [x] Travis for integration test
 - [ ] Multi-version testing for symfony2
 - [ ] Upgrade FOS to 2.0@dev
 
