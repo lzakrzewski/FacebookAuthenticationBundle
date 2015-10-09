@@ -39,6 +39,6 @@ class FacebookLoginManager
         $accessToken = $this->api->accessToken($code);
         $user = $this->users->get($this->api->me($accessToken));
 
-        $this->loginManager->loginUser($this->firewallName, $user);
+        $this->loginManager->logInUser($this->firewallName, $user);
     }
 }

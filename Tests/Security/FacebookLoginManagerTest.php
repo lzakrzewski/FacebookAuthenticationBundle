@@ -31,7 +31,7 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
         $this->api->accessToken('correct-code')->willReturn('access-token');
         $this->api->me('access-token')->willReturn($fields);
         $this->users->get($fields)->willReturn($user);
-        $this->loginManager->loginUser('firewall', $user)->shouldBeCalled();
+        $this->loginManager->logInUser('firewall', $user)->shouldBeCalled();
 
         $this->facebookLoginManager->login('correct-code');
     }
@@ -41,9 +41,9 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->api = $this->prophesize('\Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi');
-        $this->users = $this->prophesize('\Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers');
-        $this->loginManager = $this->prophesize('\FOS\UserBundle\Security\LoginManagerInterface');
+        $this->api = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi');
+        $this->users = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers');
+        $this->loginManager = $this->prophesize('FOS\UserBundle\Security\LoginManagerInterface');
 
         $this->facebookLoginManager = new FacebookLoginManager($this->api->reveal(), $this->users->reveal(), $this->loginManager->reveal(), 'firewall');
     }
