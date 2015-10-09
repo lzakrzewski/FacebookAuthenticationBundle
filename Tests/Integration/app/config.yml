@@ -5,7 +5,6 @@ framework:
     test: ~
     form:            ~
     csrf_protection: ~
-    #TODO prepare PHP templates for tests and avoid require
     templating:
         engines: ['php']
     session:
