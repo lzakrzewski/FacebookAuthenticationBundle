@@ -7,44 +7,38 @@ use FOS\UserBundle\FOSUserBundle;
 use Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernel extends Kernel
 {
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function registerBundles()
     {
         return array(
             new FrameworkBundle(),
             new DoctrineBundle(),
             new SecurityBundle(),
+            new TwigBundle(),
             new FOSUserBundle(),
             new LucaszzFacebookAuthenticationBundle(),
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getCacheDir()
     {
         return $this->tmpDir().'/cache';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getLogDir()
     {
         return $this->tmpDir().'/logs';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config.yml');

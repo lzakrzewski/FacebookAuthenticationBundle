@@ -6,7 +6,7 @@ framework:
     form:            ~
     csrf_protection: ~
     templating:
-        engines: ['php']
+        engines: ['twig']
     session:
         storage_id: session.storage.mock_file
     router:          { resource: "%kernel.root_dir%/routing.yml" }
@@ -29,8 +29,6 @@ doctrine:
                 is_bundle: false
 
 fos_user:
-    template:
-        engine: php
     service:
         mailer: fos_user.mailer.fake
     db_driver: orm
@@ -41,7 +39,6 @@ lucaszz_facebook_authentication:
     app_id: 1234
     app_secret: secret
     scope: ["public_profile", "email", "user_birthday"]
-
 
 imports:
     - { resource: security.yml }

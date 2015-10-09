@@ -3,7 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\fixtures;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Entity\User;
+use FOS\UserBundle\Model\User;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
 
 /**

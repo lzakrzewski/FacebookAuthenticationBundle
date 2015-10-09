@@ -7,16 +7,12 @@ use FOS\UserBundle\Model\UserInterface;
 
 class FakeMailer implements MailerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function sendResettingEmailMessage(UserInterface $user)
     {
     }
