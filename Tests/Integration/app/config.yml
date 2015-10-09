@@ -25,7 +25,7 @@ doctrine:
             facebook_authentication_test:
                 type: annotation
                 prefix: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures
-                dir: "%kernel.root_dir%/../."
+                dir: "%kernel.root_dir%/../../fixtures"
                 alias: FacebookAuthenticationTest
                 is_bundle: false
 
