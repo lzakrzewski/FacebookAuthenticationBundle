@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="<?php echo $view['router']->generate("fos_user_security_check") ?>" method="post">
+        <form action="<?php echo $view['router']->generate('fos_user_security_check') ?>" method="post">
             <input type="hidden" name="_csrf_token" value="<?php echo $csrf_token ?>"/>
 
             <label for="username">Username</label>

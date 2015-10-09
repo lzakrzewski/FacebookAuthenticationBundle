@@ -177,4 +177,3 @@ class AuthenticationTest extends IntegrationTestCase
         return (string) $this->client->getContainer()->get('security.context')->getToken()->getUser();
     }
 }
-
