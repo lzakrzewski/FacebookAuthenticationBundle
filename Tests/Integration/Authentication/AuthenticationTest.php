@@ -5,7 +5,7 @@ namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi;
+use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 

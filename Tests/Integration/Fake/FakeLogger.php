@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake;
 
 use Psr\Log\AbstractLogger;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app;
+namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake;
 
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\UserInterface;

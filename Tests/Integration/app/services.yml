@@ -1,11 +1,11 @@
 services:
     logger:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\FakeLogger
+        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeLogger
 
     fos_user.mailer.fake:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\FakeMailer
+        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeMailer
 
     lucaszz_facebook_authentication.adapter.facebook_api: @lucaszz_facebook_authentication.adapter.facebook_api.fake
 
     lucaszz_facebook_authentication.adapter.facebook_api.fake:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Adapter\FakeFacebookApi
+        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi
