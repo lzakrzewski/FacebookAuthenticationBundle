@@ -2,21 +2,12 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
-use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 
 class AuthenticationTest extends IntegrationTestCase
 {
-    /** @var EntityManager */
-    private $entityManager;
-
-    /**
-     * @test
-     */
+    /** @test */
     public function it_redirects_to_facebook_dialog_page()
     {
         $this->visit('/facebook/login');
@@ -30,9 +21,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertArrayHasKey('client_id', $query);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_authorize_new_facebook_user()
     {
         $this->visit('/facebook/login?code=1234');
@@ -41,9 +30,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertThatLogWithMessageWasCreated('has been authenticated successfully');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_authorize_existing_facebook_user()
     {
         $this->user('FacebookUser', 'test1', 123456);
@@ -54,9 +41,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertThatLogWithMessageWasCreated('has been authenticated successfully');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_does_not_authorize_facebook_user_when_problem_with_api_occurs()
     {
         $this->user('FacebookUser', 'test1', 123456);
@@ -69,9 +54,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertThatLogWithMessageWasCreated('Authentication request failed');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_be_authorized_with_form_login_and_valid_credentials()
     {
         $this->user('john-doe', 'test1');
@@ -82,9 +65,7 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertIsAuthorizedAsUser('john-doe');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_not_be_authorized_with_form_login_and_invalid_credentials()
     {
         $this->user('john-doe', 'test1');
@@ -93,28 +74,6 @@ class AuthenticationTest extends IntegrationTestCase
         $this->fillAndSubmitLoginForm('wrong-username', 'test1');
 
         $this->assertIsNotAuthorizedAsUser();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-
-        $this->setupDatabase();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
-    {
-        $this->entityManager = null;
-
-        parent::tearDown();
     }
 
     private function fillAndSubmitLoginForm($username, $password)
@@ -140,34 +99,6 @@ class AuthenticationTest extends IntegrationTestCase
         parse_str($parsedUrl['query'], $parsedQuery);
 
         return $parsedQuery;
-    }
-
-    private function user($username, $password, $facebookId = 12456)
-    {
-        $user = new TestUser();
-
-        $user->setPlainPassword($password);
-        $user->setUsername($username);
-        $user->setEmail('john@example.com');
-        $user->setEnabled(true);
-        $user->setFacebookId($facebookId);
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return $user;
-    }
-
-    private function setupDatabase()
-    {
-        $params = $this->entityManager->getConnection()->getParams();
-        $tmpConnection = DriverManager::getConnection($params);
-        $tmpConnection->getSchemaManager()->createDatabase($params['path']);
-        $schemaTool = new SchemaTool($this->entityManager);
-        $schemaTool->dropDatabase();
-
-        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
-        $schemaTool->createSchema(array($this->entityManager->getClassMetadata($userModelClass)));
     }
 
     private function currentUserName()

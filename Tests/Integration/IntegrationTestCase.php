@@ -2,9 +2,13 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration;
 
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\SchemaTool;
+use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,18 +19,16 @@ abstract class IntegrationTestCase extends WebTestCase
     protected $container;
     /** @var Client */
     protected $client;
-    /** @var array */
-    protected $config;
-    /** @var RouterInterface */
-    private $router;
     /** @var Crawler */
     protected $crawler;
+    /** @var RouterInterface */
+    private $router;
     /** @var DebugLoggerInterface */
-    protected $logger;
+    private $logger;
+    /** @var EntityManager */
+    private $entityManager;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public static function getKernelClass()
     {
         include_once __DIR__.'/app/TestKernel.php';
@@ -34,16 +36,29 @@ abstract class IntegrationTestCase extends WebTestCase
         return 'Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\TestKernel';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     protected function setUp()
     {
         $this->client = $this->createClient();
         $this->container = $this->client->getContainer();
-        $this->config = $this->container->getParameter('lucaszz_facebook_authentication.config');
+
         $this->router = $this->container->get('router');
         $this->logger = $this->container->get('logger');
+        $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+
+        $this->setupDatabase();
+    }
+
+    /** {@inheritdoc} */
+    protected function tearDown()
+    {
+        $this->client = null;
+        $this->container = null;
+        $this->router = null;
+        $this->logger = null;
+        $this->entityManager = null;
+
+        parent::tearDown();
     }
 
     protected function visit($url)
@@ -56,18 +71,20 @@ abstract class IntegrationTestCase extends WebTestCase
         $this->visit($this->router->generate($routeName, $parameters));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
+    protected function user($username, $password, $facebookId = 12456)
     {
-        $this->client = null;
-        $this->config = null;
-        $this->container = null;
-        $this->router = null;
-        $this->logger = null;
+        $user = new TestUser();
 
-        parent::tearDown();
+        $user->setPlainPassword($password);
+        $user->setUsername($username);
+        $user->setEmail('john@example.com');
+        $user->setEnabled(true);
+        $user->setFacebookId($facebookId);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
 
     protected function assertThatLogWithMessageWasCreated($expectedMessage)
@@ -81,5 +98,17 @@ abstract class IntegrationTestCase extends WebTestCase
         }
 
         $this->assertTrue($logWasCreated);
+    }
+
+    private function setupDatabase()
+    {
+        $params = $this->entityManager->getConnection()->getParams();
+        $tmpConnection = DriverManager::getConnection($params);
+        $tmpConnection->getSchemaManager()->createDatabase($params['path']);
+        $schemaTool = new SchemaTool($this->entityManager);
+        $schemaTool->dropDatabase();
+
+        $userModelClass = $this->container->getParameter('fos_user.model.user.class');
+        $schemaTool->createSchema(array($this->entityManager->getClassMetadata($userModelClass)));
     }
 }
