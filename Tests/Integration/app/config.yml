@@ -1,5 +1,5 @@
 parameters:
-    kernel.secret: ThisTokenIsNotSoSecretChangeIt
+    secret: ThisTokenIsNotSoSecretChangeIt
 
 framework:
     test: ~
@@ -9,6 +9,7 @@ framework:
         engines: ['twig']
     session:
         storage_id: session.storage.mock_file
+    secret: %secret%
     router:          { resource: "%kernel.root_dir%/routing.yml" }
     profiler:
         collect: false
