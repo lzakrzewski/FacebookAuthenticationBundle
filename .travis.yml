@@ -20,7 +20,7 @@ matrix:
 
 before_install:
   - composer self-update
-  - sh ./Tests/travis/prepare-build.sh "$SYMFONY_VERSION"
+  - sh ./Tests/travis/prepare-build.sh
   - composer install
 
 script:
