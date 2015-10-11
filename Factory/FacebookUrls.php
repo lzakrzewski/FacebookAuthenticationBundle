@@ -2,11 +2,12 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Factory;
 
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi;
 use Symfony\Component\Routing\RequestContext;
 
 class FacebookUrls
 {
+    const FACEBOOK_LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
+
     /** @var RequestContext */
     private $requestContext;
     /** @var array */
@@ -39,7 +40,7 @@ class FacebookUrls
      */
     public function loginDialogUrl()
     {
-        return FacebookApi::FACEBOOK_LOGIN_DIALOG_URL.'?'.http_build_query(array(
+        return self::FACEBOOK_LOGIN_DIALOG_URL.'?'.http_build_query(array(
             'client_id' => $this->config['app_id'],
             'redirect_uri' => $this->redirectUri(),
             'scope' => implode(', ', $this->config['scope']),

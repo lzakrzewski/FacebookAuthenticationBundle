@@ -4,7 +4,6 @@ namespace Lucaszz\FacebookAuthenticationBundle\Adapter;
 
 interface FacebookApi
 {
-    const FACEBOOK_LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
     const GRAPH_API_ME_URL = 'https://graph.facebook.com/me';
     const GRAPH_API_ACCESS_TOKEN_URL = 'https://graph.facebook.com/oauth/access_token';
 
