@@ -27,9 +27,9 @@
         </service>
 
         <service id="lucaszz_facebook_authentication.factory.facebook_urls" class="Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls" >
-            <argument type="service" id="router.request_context"/>
-            <argument>%lucaszz_facebook_authentication.config%</argument>
-            <argument>%lucaszz_facebook.facebook_login_path%</argument>
+            <argument>%lucaszz_facebook_authentication.app_id%</argument>
+            <argument>%lucaszz_facebook_authentication.redirect_uri%</argument>
+            <argument>%lucaszz_facebook_authentication.scope%</argument>
         </service>
 
         <service id="lucaszz_facebook_authentication.security.facebook_login_manager" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager" >

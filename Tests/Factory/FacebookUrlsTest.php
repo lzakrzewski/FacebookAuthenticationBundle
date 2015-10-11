@@ -3,13 +3,9 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Factory;
 
 use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
-use Prophecy\Prophecy\ObjectProphecy;
-use Symfony\Component\Routing\RequestContext;
 
 class FacebookUrlsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var RequestContext|ObjectProphecy */
-    private $requestContext;
     /** @var FacebookUrls */
     private $urls;
 
@@ -37,13 +33,6 @@ class FacebookUrlsTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->requestContext = $this->prophesize('\Symfony\Component\Routing\RequestContext');
-        $this->requestContext->getScheme()->willReturn('http');
-        $this->requestContext->getHost()->willReturn('host.com');
-
-        $config = array('app_id' => '12345', 'scope' => array('email', 'public_profile'));
-        $loginPath = '/facebook/login';
-
-        $this->urls = new FacebookUrls($this->requestContext->reveal(), $config, $loginPath);
+        $this->urls = new FacebookUrls('12345', 'http://host.com/facebook/login', array('email', 'public_profile'));
     }
 }
