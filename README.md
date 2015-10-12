@@ -34,6 +34,7 @@ Installation
 ```sh
 composer require lucaszz/facebook-authentication-bundle "~1.0"
 ```
+
 #### Step 3: Enable the FacebookAuthenticationBundle
 
 ```php
