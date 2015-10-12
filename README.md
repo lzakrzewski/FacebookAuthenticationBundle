@@ -144,7 +144,7 @@ php app/console doctrine:schema:update --force
 ```
 
 #### Step 9: Setup your facebook app:
-Todo: create documentation of this
+[Documentation](https://developers.facebook.com/docs)
 
 Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/access-tokens#authNative)
 
@@ -152,3 +152,4 @@ Further documentation
 --------
 - [FacebookId](Resources/doc/facebook_id.md)
 - [Events](Resources/doc/events.md)
+- [Custom login path](Resources/doc/facebook_login_path.md)
