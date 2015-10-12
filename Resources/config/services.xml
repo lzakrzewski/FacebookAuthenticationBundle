@@ -9,13 +9,20 @@
 
         <service id="lucaszz_facebook_authentication.adapter.facebook_api" alias="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" />
 
-        <service id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" class="Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi" >
+        <service id="lucaszz_facebook_authentication.factory.facebook_api" class="Lucaszz\FacebookAuthenticationBundle\Factory\FacebookApiFactory">
             <argument type="service" id="lucaszz_facebook_authentication.guzzle"/>
-            <argument>%lucaszz_facebook_authentication.redirect_uri%</argument>
+            <argument type="service" id="lucaszz_facebook_authentication.uri.redirect_uri"/>
             <argument>%lucaszz_facebook_authentication.app_id%</argument>
             <argument>%lucaszz_facebook_authentication.app_secret%</argument>
             <argument type="service" id="logger" on-invalid="null" />
         </service>
+
+        <service
+                id="lucaszz_facebook_authentication.factory.facebook_api"
+                class="Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi"
+                factory-service="newsletter_manager_factory"
+                factory-method="get"
+                />
 
         <service id="lucaszz_facebook_authentication.annotation.facebook_id_property_name" class="Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName" >
             <argument type="service" id="annotation_reader"/>
@@ -27,9 +34,14 @@
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="lucaszz_facebook_authentication.factory.facebook_urls" class="Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls" >
+        <service id="lucaszz_facebook_authentication.uri.redirect_uri" class="Lucaszz\FacebookAuthenticationBundle\Uri\RedirectUri" >
+            <argument type="service" id="router.request_context"/>
+            <argument>%lucaszz_facebook.facebook_login_path%</argument>
+        </service>
+
+        <service id="lucaszz_facebook_authentication.uri.login_dialog_uri" class="Lucaszz\FacebookAuthenticationBundle\Uri\LoginDialogUri" >
+            <argument type="service" id="lucaszz_facebook_authentication.uri.redirect_uri"/>
             <argument>%lucaszz_facebook_authentication.app_id%</argument>
-            <argument>%lucaszz_facebook_authentication.redirect_uri%</argument>
             <argument>%lucaszz_facebook_authentication.scope%</argument>
         </service>
 
@@ -42,7 +54,7 @@
 
         <service id="lucaszz_facebook_authentication.security.facebook_listener" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener" >
             <argument type="service" id="lucaszz_facebook_authentication.security.facebook_login_manager"/>
-            <argument type="service" id="lucaszz_facebook_authentication.factory.facebook_urls"/>
+            <argument type="service" id="lucaszz_facebook_authentication.uri.login_dialog_uri"/>
             <argument type="service" id="security.context"/>
             <argument/>
             <argument/>

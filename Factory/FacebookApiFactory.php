@@ -42,6 +42,6 @@ class FacebookApiFactory
      */
     public function get()
     {
-        return new GuzzleFacebookApi($this->client, $this->redirectUri, $this->appId, $this->appSecret, $this->logger);
+        return new GuzzleFacebookApi($this->client, $this->redirectUri->get(), $this->appId, $this->appSecret, $this->logger);
     }
 }

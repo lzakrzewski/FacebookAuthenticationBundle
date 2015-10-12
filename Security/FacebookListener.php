@@ -3,7 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
-use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
+use Lucaszz\FacebookAuthenticationBundle\Uri\FacebookUri;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +20,8 @@ class FacebookListener implements ListenerInterface
 {
     /** @var FacebookLoginManager */
     private $loginManager;
-    /** @var FacebookUrls */
-    private $urls;
+    /** @var FacebookUri */
+    private $loginDialogUri;
     /** @var SecurityContextInterface */
     private $securityContext;
     /** @var AuthenticationSuccessHandlerInterface */
@@ -35,16 +35,16 @@ class FacebookListener implements ListenerInterface
 
     /**
      * @param FacebookLoginManager                  $loginManager
-     * @param FacebookUrls                          $urls
+     * @param FacebookUri                           $loginDialogUri
      * @param SecurityContextInterface              $securityContext
      * @param AuthenticationSuccessHandlerInterface $successHandler
      * @param AuthenticationFailureHandlerInterface $failureHandler
      * @param string                                $loginPath
-     * @param LoggerInterface                       $logger
+     * @param LoggerInterface|null                  $logger
      */
     public function __construct(
         FacebookLoginManager $loginManager,
-        FacebookUrls $urls,
+        FacebookUri $loginDialogUri,
         SecurityContextInterface $securityContext,
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
@@ -52,7 +52,7 @@ class FacebookListener implements ListenerInterface
         LoggerInterface $logger = null
     ) {
         $this->loginManager = $loginManager;
-        $this->urls = $urls;
+        $this->loginDialogUri = $loginDialogUri;
         $this->securityContext = $securityContext;
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
@@ -73,7 +73,7 @@ class FacebookListener implements ListenerInterface
         $request = $event->getRequest();
 
         if (null === $code = $request->query->get('code')) {
-            $event->setResponse(new RedirectResponse($this->urls->loginDialogUrl()));
+            $event->setResponse(new RedirectResponse($this->loginDialogUri->get()));
 
             return;
         }
