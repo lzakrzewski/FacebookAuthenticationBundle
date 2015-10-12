@@ -25,16 +25,6 @@ class FacebookUrls
     }
 
     /**
-     * @deprecated
-     *
-     * @return string
-     */
-    public function redirectUri()
-    {
-        return $this->redirectUri;
-    }
-
-    /**
      * @return string
      */
     public function loginDialogUrl()

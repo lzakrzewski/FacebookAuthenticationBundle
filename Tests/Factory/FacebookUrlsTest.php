@@ -12,14 +12,6 @@ class FacebookUrlsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_gets_redirect_uri()
-    {
-        $this->assertEquals('http://host.com/facebook/login', $this->urls->redirectUri());
-    }
-
-    /**
-     * @test
-     */
     public function it_gets_login_dialog_url()
     {
         $this->assertEquals(
