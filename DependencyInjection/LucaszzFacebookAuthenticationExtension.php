@@ -21,6 +21,7 @@ class LucaszzFacebookAuthenticationExtension extends Extension
         $container->setParameter('lucaszz_facebook_authentication.app_secret', $config['app_secret']);
         $container->setParameter('lucaszz_facebook_authentication.scope', $config['scope']);
 
+        //@todo redirect_uri is deprecated
         $container->setParameter('lucaszz_facebook_authentication.redirect_uri', $this->redirectUri($container));
     }
 
