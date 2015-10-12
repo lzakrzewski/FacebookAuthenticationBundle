@@ -9,10 +9,11 @@
 
         <service id="lucaszz_facebook_authentication.adapter.facebook_api" alias="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" />
 
-        <service id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" class="Lucaszz\FacebookAuthenticationBundle\Adapter\GuzzleFacebookApi" >
+        <service id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" class="Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi" >
             <argument type="service" id="lucaszz_facebook_authentication.guzzle"/>
-            <argument type="service" id="lucaszz_facebook_authentication.factory.facebook_urls"/>
-            <argument>%lucaszz_facebook_authentication.config%</argument>
+            <argument>%lucaszz_facebook_authentication.redirect_uri%</argument>
+            <argument>%lucaszz_facebook_authentication.app_id%</argument>
+            <argument>%lucaszz_facebook_authentication.app_secret%</argument>
             <argument type="service" id="logger" on-invalid="null" />
         </service>
 

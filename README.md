@@ -19,7 +19,7 @@ Target: Keep it minimalistic and use existing components from Symfony2 and FOSUs
 - [x] Travis for integration test
 - [x] Multi-version testing for symfony2
 - [x] Upgrade FOS to 2.0@dev
-- [ ] Extract adapter to another repo
+- [x] Extract adapter to another repo
 
 ### Readme TODO
 - [ ] Introduction

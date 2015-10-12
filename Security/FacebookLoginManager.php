@@ -3,7 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
 use FOS\UserBundle\Security\LoginManagerInterface;
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi;
+use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
 
 class FacebookLoginManager

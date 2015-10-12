@@ -2,7 +2,7 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Security;
 
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
+use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
 use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookUrls;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

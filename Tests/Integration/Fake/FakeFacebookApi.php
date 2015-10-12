@@ -2,8 +2,8 @@
 
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake;
 
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApiException;
+use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
+use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
 
 class FakeFacebookApi implements FacebookApi
 {

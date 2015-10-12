@@ -3,7 +3,7 @@
 namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
 
 use FOS\UserBundle\Security\LoginManagerInterface;
-use Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi;
+use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
 use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
 use Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager;
 use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
@@ -41,7 +41,7 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->api = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Adapter\FacebookApi');
+        $this->api = $this->prophesize('Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi');
         $this->users = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers');
         $this->loginManager = $this->prophesize('FOS\UserBundle\Security\LoginManagerInterface');
 
