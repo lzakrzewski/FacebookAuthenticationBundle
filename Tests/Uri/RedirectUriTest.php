@@ -40,4 +40,11 @@ class RedirectUriTest extends \PHPUnit_Framework_TestCase
 
         $this->uri = new RedirectUri($this->context->reveal(), '/facebook/login');
     }
+
+    /** {@inheritdoc} */
+    protected function tearDown()
+    {
+        $this->context = null;
+        $this->uri = null;
+    }
 }

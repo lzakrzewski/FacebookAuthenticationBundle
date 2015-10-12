@@ -18,9 +18,9 @@
         </service>
 
         <service
-                id="lucaszz_facebook_authentication.factory.facebook_api"
+                id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle"
                 class="Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi"
-                factory-service="newsletter_manager_factory"
+                factory-service="lucaszz_facebook_authentication.factory.facebook_api"
                 factory-method="get"
                 />
 

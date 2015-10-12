@@ -45,8 +45,6 @@ abstract class IntegrationTestCase extends WebTestCase
         $this->router = $this->container->get('router');
         $this->logger = $this->container->get('logger');
         $this->entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-
-        $this->setupDatabase();
     }
 
     /** {@inheritdoc} */
@@ -100,7 +98,7 @@ abstract class IntegrationTestCase extends WebTestCase
         $this->assertTrue($logWasCreated);
     }
 
-    private function setupDatabase()
+    protected function setupDatabase()
     {
         $params = $this->entityManager->getConnection()->getParams();
         $tmpConnection = DriverManager::getConnection($params);

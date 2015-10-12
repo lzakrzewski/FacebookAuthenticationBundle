@@ -76,6 +76,14 @@ class AuthenticationTest extends IntegrationTestCase
         $this->assertIsNotAuthorizedAsUser();
     }
 
+    /** {@inheritdoc} */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->setupDatabase();
+    }
+
     private function fillAndSubmitLoginForm($username, $password)
     {
         $form = $this->crawler->selectButton('_submit')->form();

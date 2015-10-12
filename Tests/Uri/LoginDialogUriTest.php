@@ -29,4 +29,11 @@ class LoginDialogUriTest extends \PHPUnit_Framework_TestCase
 
         $this->uri = new LoginDialogUri($this->redirectUri->reveal(), 123456, array('public_profile', 'email', 'user_birthday'));
     }
+
+    /** {@inheritdoc} */
+    protected function tearDown()
+    {
+        $this->redirectUri = null;
+        $this->uri = null;
+    }
 }
