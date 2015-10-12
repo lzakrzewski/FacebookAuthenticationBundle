@@ -115,13 +115,35 @@ facebook_login_path:
     pattern: /facebook/login
 ```
 
-#### Step 7: Update your database schema
+#### Step 7: Enable `facebook_listener` in your `security.yml`
+
+```yaml
+# app/config/security.yml
+security:
+    # ...
+    
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+
+            logout:       true
+            anonymous:    true
+            # Enable facebook_listener  
+            lucaszz_facebook: true
+            
+    # ...
+```
+
+#### Step 8: Update your database schema
 
 ```sh
 php app/console doctrine:schema:update --force
 ```
 
-#### Step 8: Setup your facebook app:
+#### Step 9: Setup your facebook app:
 Todo: create documentation of this
 
 Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/access-tokens#authNative)
