@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle.svg)](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle)
+[![Build Status](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle.svg)](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle) [![Latest Stable Version](https://poser.pugx.org/lucaszz/facebook-authentication-bundle/v/stable)](https://packagist.org/packages/lucaszz/facebook-authentication-bundle) [![Total Downloads](https://poser.pugx.org/lucaszz/facebook-authentication-bundle/downloads)](https://packagist.org/packages/lucaszz/facebook-authentication-bundle)
 
 FacebookAuthenticationBundle
 ======
