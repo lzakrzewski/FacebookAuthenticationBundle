@@ -5,12 +5,12 @@ namespace Lucaszz\FacebookAuthenticationBundle\Model;
 interface FacebookUser
 {
     /**
-     * @return string
+     * @return int
      */
     public function getFacebookId();
 
     /**
-     * @param string $facebookId
+     * @param int $facebookId
      */
     public function setFacebookId($facebookId);
 }
