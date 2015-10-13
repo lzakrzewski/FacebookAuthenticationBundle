@@ -17,6 +17,8 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
     private $users;
     /** @var LoginManagerInterface|ObjectProphecy */
     private $loginManager;
+    /** @var array */
+    private $fields;
     /** @var FacebookLoginManager */
     private $facebookLoginManager;
 
@@ -26,11 +28,11 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
     public function it_performs_login()
     {
         $user = new TestUser();
-        $fields = array('id' => 1235, 'name' => 'John doe', 'email' => 'john@example.com');
+        $userNode = array('id' => 1235, 'name' => 'John doe', 'email' => 'john@example.com');
 
         $this->api->accessToken('correct-code')->willReturn('access-token');
-        $this->api->me('access-token')->willReturn($fields);
-        $this->users->get($fields)->willReturn($user);
+        $this->api->me('access-token', $this->fields)->willReturn($userNode);
+        $this->users->get($userNode)->willReturn($user);
         $this->loginManager->logInUser('firewall', $user)->shouldBeCalled();
 
         $this->facebookLoginManager->login('correct-code');
@@ -44,7 +46,8 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
         $this->api = $this->prophesize('Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi');
         $this->users = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers');
         $this->loginManager = $this->prophesize('FOS\UserBundle\Security\LoginManagerInterface');
+        $this->fields = array('name', 'email');
 
-        $this->facebookLoginManager = new FacebookLoginManager($this->api->reveal(), $this->users->reveal(), $this->loginManager->reveal(), 'firewall');
+        $this->facebookLoginManager = new FacebookLoginManager($this->api->reveal(), $this->users->reveal(), $this->loginManager->reveal(), $this->fields, 'firewall');
     }
 }

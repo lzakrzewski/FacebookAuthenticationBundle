@@ -49,6 +49,7 @@
             <argument type="service" id="lucaszz_facebook_authentication.adapter.facebook_api"/>
             <argument type="service" id="lucaszz_facebook_authentication.model.facebook_users"/>
             <argument type="service" id="fos_user.security.login_manager"/>
+            <argument>%lucaszz_facebook_authentication.fields%</argument>
             <argument>%fos_user.firewall_name%</argument>
         </service>
 

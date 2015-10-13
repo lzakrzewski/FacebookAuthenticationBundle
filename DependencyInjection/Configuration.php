@@ -29,6 +29,16 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
+                ->arrayNode('fields')
+                    ->defaultValue(array('name', 'email'))
+                    ->beforeNormalization()
+                        ->ifTrue(function ($v) {
+                            return !in_array('name', $v) || !in_array('email', $v);
+                        })
+                        ->thenInvalid('Values "name" and "email" are required for "lucaszz_facebook_authentication.fields", %s given.')
+                    ->end()
+                    ->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

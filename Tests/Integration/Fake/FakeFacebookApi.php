@@ -10,9 +10,7 @@ class FakeFacebookApi implements FacebookApi
     /** @var bool */
     private static $failed = false;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function accessToken($code)
     {
         (self::$failed) ? $this->failed() : null;
@@ -20,10 +18,8 @@ class FakeFacebookApi implements FacebookApi
         return 'xyz';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function me($accessToken)
+    /** {@inheritdoc} */
+    public function me($accessToken, array $fields = array())
     {
         (self::$failed) ? $this->failed() : null;
 
