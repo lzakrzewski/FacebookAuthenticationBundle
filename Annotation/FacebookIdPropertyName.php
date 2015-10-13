@@ -36,10 +36,10 @@ class FacebookIdPropertyName
             if (in_array(new FacebookId(), $annotations)) {
                 return $property->getName();
             }
+        }
 
-            if (!property_exists($user, self::FACEBOOK_ID_DEFAULT_PROPERTY_NAME)) {
-                throw new \InvalidArgumentException(sprintf('Property "facebookId" does not exist. Instance of FacebookUser should have "facebookId" property or "FacebookId" annotation.'));
-            }
+        if (!property_exists($user, self::FACEBOOK_ID_DEFAULT_PROPERTY_NAME)) {
+            throw new \InvalidArgumentException(sprintf('Property "facebookId" does not exist. Instance of FacebookUser should have "facebookId" property or "FacebookId" annotation.'));
         }
 
         return self::FACEBOOK_ID_DEFAULT_PROPERTY_NAME;

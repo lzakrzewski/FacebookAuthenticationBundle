@@ -8,11 +8,21 @@ use Lucaszz\FacebookAuthenticationBundle\Annotation as Lucaszz;
 
 class TestUserWithFacebookIdAnnotation extends User implements FacebookUser
 {
-    /** @var @Lucaszz\FacebookId */
-    protected $id;
-
-    /** @var string */
+    /**
+     * @AnotherAnnotation
+     *
+     * @var string
+     */
     protected $property1 = 'value1';
+
+    /**
+     * @AnotherAnnotation
+     * @Lucaszz\FacebookId
+     * @AnotherAnnotation
+     *
+     * @var int
+     */
+    protected $id;
 
     /** @var string */
     public $property2 = 'value2';

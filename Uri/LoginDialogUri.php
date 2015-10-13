@@ -4,7 +4,7 @@ namespace Lucaszz\FacebookAuthenticationBundle\Uri;
 
 class LoginDialogUri implements FacebookUri
 {
-    const FACEBOOK_LOGIN_DIALOG_URL = 'https://www.facebook.com/dialog/oauth';
+    const FACEBOOK_LOGIN_DIALOG_URL = 'https://www.facebook.com/v2.5/dialog/oauth';
 
     /** @var FacebookUri */
     private $redirectUri;

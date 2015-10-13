@@ -17,7 +17,7 @@ class LoginDialogUriTest extends \PHPUnit_Framework_TestCase
     public function it_gets_login_dialog_uri()
     {
         $this->assertEquals(
-            'https://www.facebook.com/dialog/oauth?client_id=123456&scope=public_profile%2C+email%2C+user_birthday',
+            'https://www.facebook.com/v2.5/dialog/oauth?client_id=123456&scope=public_profile%2C+email%2C+user_birthday',
             $this->uri->get()
         );
     }
