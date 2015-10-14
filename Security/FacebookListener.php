@@ -24,7 +24,7 @@ class FacebookListener implements ListenerInterface
     /** @var FacebookUri */
     private $loginDialogUri;
     /** @var SecurityContextInterface|TokenStorageInterface */
-    private $securityContext;
+    private $tokenStorage;
     /** @var AuthenticationSuccessHandlerInterface */
     private $successHandler;
     /** @var AuthenticationFailureHandlerInterface */
@@ -37,7 +37,7 @@ class FacebookListener implements ListenerInterface
     /**
      * @param FacebookLoginManager                           $loginManager
      * @param FacebookUri                                    $loginDialogUri
-     * @param SecurityContextInterface|TokenStorageInterface $securityContext
+     * @param SecurityContextInterface|TokenStorageInterface $tokenStorage
      * @param AuthenticationSuccessHandlerInterface          $successHandler
      * @param AuthenticationFailureHandlerInterface          $failureHandler
      * @param string                                         $loginPath
@@ -46,7 +46,7 @@ class FacebookListener implements ListenerInterface
     public function __construct(
         FacebookLoginManager $loginManager,
         FacebookUri $loginDialogUri,
-        $securityContext,
+        $tokenStorage,
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
         $loginPath,
@@ -54,7 +54,7 @@ class FacebookListener implements ListenerInterface
     ) {
         $this->loginManager = $loginManager;
         $this->loginDialogUri = $loginDialogUri;
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
         $this->loginPath = $loginPath;
@@ -82,7 +82,7 @@ class FacebookListener implements ListenerInterface
         try {
             $this->loginManager->login($code);
 
-            $response = $this->onSuccess($request, $this->securityContext->getToken());
+            $response = $this->onSuccess($request, $this->tokenStorage->getToken());
         } catch (FacebookApiException $e) {
             $response = $this->onFailure($request, $e);
         }
