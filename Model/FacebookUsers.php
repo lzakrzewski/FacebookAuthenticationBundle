@@ -31,21 +31,21 @@ class FacebookUsers
     }
 
     /**
-     * @param array $fields
+     * @param array $userNode
      *
      * @throws FacebookUserException
      *
      * @return UserInterface
      */
-    public function get(array $fields)
+    public function get(array $userNode)
     {
-        $user = $this->findUser($fields['id']);
+        $user = $this->findUser($userNode['id']);
 
         if (null === $user) {
-            return $this->createUser($fields);
+            return $this->createUser($userNode);
         }
 
-        return $this->updateUser($user, $fields);
+        return $this->updateUser($user, $userNode);
     }
 
     private function createUser(array $fields)
@@ -68,9 +68,6 @@ class FacebookUsers
 
     private function updateUser(UserInterface $user, array $fields)
     {
-        $user->setUsername($fields['name']);
-        $user->setEmail($fields['email']);
-
         $this->dispatcher->dispatch(Events::USER_UPDATED, new FacebookUserEvent($user, $fields));
 
         $this->users->updateUser($user);

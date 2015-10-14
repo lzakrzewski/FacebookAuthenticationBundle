@@ -33,7 +33,7 @@ class AuthenticationTest extends IntegrationTestCase
     /** @test */
     public function it_authorize_existing_facebook_user()
     {
-        $this->user('FacebookUser', 'test1', 123456);
+        $this->user('FacebookUser', 'test1', 'facebook-user@example.com', 123456);
 
         $this->visit('/facebook/login?code=1234');
 
@@ -44,7 +44,7 @@ class AuthenticationTest extends IntegrationTestCase
     /** @test */
     public function it_does_not_authorize_facebook_user_when_problem_with_api_occurs()
     {
-        $this->user('FacebookUser', 'test1', 123456);
+        $this->user('FacebookUser', 'test1', 'facebook-user@example.com', 123456);
 
         FakeFacebookApi::problemWithApiOccurs();
 
@@ -57,7 +57,7 @@ class AuthenticationTest extends IntegrationTestCase
     /** @test */
     public function it_can_be_authorized_with_form_login_and_valid_credentials()
     {
-        $this->user('john-doe', 'test1');
+        $this->user('john-doe', 'test1', 'john-doe@example.com');
 
         $this->visitRoute('fos_user_security_login');
         $this->fillAndSubmitLoginForm('john-doe', 'test1');
@@ -68,7 +68,7 @@ class AuthenticationTest extends IntegrationTestCase
     /** @test */
     public function it_can_not_be_authorized_with_form_login_and_invalid_credentials()
     {
-        $this->user('john-doe', 'test1');
+        $this->user('john-doe', 'test1', 'john-doe@example.com');
 
         $this->visitRoute('fos_user_security_login');
         $this->fillAndSubmitLoginForm('wrong-username', 'test1');

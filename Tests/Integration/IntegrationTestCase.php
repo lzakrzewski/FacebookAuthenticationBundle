@@ -69,13 +69,13 @@ abstract class IntegrationTestCase extends WebTestCase
         $this->visit($this->router->generate($routeName, $parameters));
     }
 
-    protected function user($username, $password, $facebookId = 12456)
+    protected function user($username, $password, $email, $facebookId = 12456)
     {
         $user = new TestUser();
 
         $user->setPlainPassword($password);
         $user->setUsername($username);
-        $user->setEmail('john@example.com');
+        $user->setEmail($email);
         $user->setEnabled(true);
         $user->setFacebookId($facebookId);
 
