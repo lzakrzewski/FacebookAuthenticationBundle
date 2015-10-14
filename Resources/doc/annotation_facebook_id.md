@@ -31,7 +31,7 @@ class User extends BaseUser implements FacebookUser
     
     /** 
      * @Lucaszz\FacebookId
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", nullable=true)
      */
     private $apiId;
 

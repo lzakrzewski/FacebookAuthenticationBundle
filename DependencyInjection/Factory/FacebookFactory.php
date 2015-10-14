@@ -46,6 +46,7 @@ class FacebookFactory implements SecurityFactoryInterface
         } else {
             $tokenStorageReference = new Reference('security.context');
         }
+
         $listener->replaceArgument(2, $tokenStorageReference);
         $listener->replaceArgument(3, new Reference($this->createAuthenticationSuccessHandler($container, $id, $config)));
         $listener->replaceArgument(4, new Reference($this->createAuthenticationFailureHandler($container, $id, $config)));

@@ -23,6 +23,10 @@ Requirements
     }
 ```
 
+Supported Facebook API version
+--------
+- v2.5
+
 Installation
 --------
 #### Step 1: Integrate FOSUserBundle with your app:
@@ -43,7 +47,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new \Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle(),
+        new Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle(),
         // ...
     );
 }
@@ -74,7 +78,7 @@ class User extends BaseUser implements FacebookUser
     protected $id;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", nullable=true)
      */
     private $facebookId;
 
@@ -90,23 +94,38 @@ class User extends BaseUser implements FacebookUser
         $this->facebookId = $facebookId;
     }
 }
-
 ```
 
-**Notice** field for store Facebook Id should be named `facebookId` or Annotation `FacebookId` should be used. [FacebookId](Resources/doc/facebook_id.md)
+**Notice** field for store FacebookId should be named `facebookId` or Annotation `FacebookId` should be used: [FacebookId Annotation](Resources/doc/annotation_facebook_id.md).
  
 #### Step 5: Configure the `config.yml`
+###### Minimal configuration:
 
 ```yaml
 lucaszz_facebook_authentication:
     app_id: 1234
     app_secret: secret
-    scope: ["public_profile", "email"]
+```
+Parameters: `app_id` and `secret` are needed to get access token: [Access Tokens](https://developers.facebook.com/docs/facebook-login/access-tokens/v2.5).
+
+###### Example of full configuration:
+```yaml
+lucaszz_facebook_authentication:
+    app_id: 1234
+    app_secret: secret
+    scope: ["public_profile", "email", "user_birthday"]
+    fields: ["name", "email", "birthday"]
 ```
 
-Parameters: `app_id` and `secret` are needed to get access token: [Access Tokens](https://developers.facebook.com/docs/facebook-login/access-tokens)
+Parameters: 
 
-**Notice** `scope` should contain `public_profile`, `email` or more: [Permissions with Facebook Login](https://developers.facebook.com/docs/facebook-login/permissions).
+- `scope` An array of permissions: [Permissions with Facebook Login](https://developers.facebook.com/docs/facebook-login/permissions/v2.5),
+- `fields` By default, not all the fields in a node or edge are returned when you make a query. You can choose the fields (or edges) you want returned with the "fields" query parameter. [Choosing Fields](https://developers.facebook.com/docs/graph-api/using-graph-api/v2.5#fields).
+
+**Notice** 
+
+- `scope` Should contain `public_profile`, `email` or more,
+- `fields` Should contain `name`, `email` or more.
 
 #### Step 6: Confgure your `routing.yml`
 
@@ -143,13 +162,13 @@ security:
 php app/console doctrine:schema:update --force
 ```
 
-#### Step 9: Setup your facebook app:
+#### Step 9: Setup your facebook app
 [Documentation](https://developers.facebook.com/docs)
 
-Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/access-tokens#authNative)
+Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/v2.5/access-tokens#authNative).
 
 Further documentation
 --------
-- [FacebookId](Resources/doc/facebook_id.md)
+- [FacebookId](Resources/doc/annotation_facebook_id.md)
 - [Events](Resources/doc/events.md)
 - [Custom login path](Resources/doc/facebook_login_path.md)

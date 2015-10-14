@@ -50,12 +50,12 @@ class User extends BaseUser implements FacebookUser
     protected $id;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", nullable=true)
      */
     private $facebookId;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateOfBirth;
 
@@ -88,6 +88,7 @@ lucaszz_facebook_authentication:
     app_id: 1234
     app_secret: secret
     scope: ["public_profile", "email", "user_birthday"]
+    fields: ["name", "email", "birthday"]
 ```
     
 #### Step 3: Create event listener event `lucaszz_facebook_authentication.on_user_created`
@@ -107,9 +108,9 @@ class FacebookUserListener
     public function updateDateOfBirth(FacebookUserEvent $event)
     {
         $data = $event->getData();
-
         $user = $event->getUser();
-        $user->setDateOfBirth(new \DateTime($data['user_birthday']));
+
+        $user->setDateOfBirth(new \DateTime($data['birthday']));
     }
 }
 ```
