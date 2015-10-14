@@ -29,11 +29,11 @@ Supported Facebook API version
 
 Installation
 --------
-#### Step 1: Integrate FOSUserBundle with your app:
+#### Step 1: Integrate FOSUserBundle with your app
 
 [Read the Documentation for master](https://symfony.com/doc/master/bundles/FOSUserBundle/index.html).
 
-#### Step 2: Require the FacebookAuthenticationBundle with composer:
+#### Step 2: Require the FacebookAuthenticationBundle with composer
 
 ```sh
 composer require lucaszz/facebook-authentication-bundle "~1.0"
@@ -172,3 +172,4 @@ Further documentation
 - [FacebookId](Resources/doc/annotation_facebook_id.md)
 - [Events](Resources/doc/events.md)
 - [Custom login path](Resources/doc/facebook_login_path.md)
+- [Testing](Resources/doc/testing.md)
