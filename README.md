@@ -165,7 +165,7 @@ php app/console doctrine:schema:update --force
 #### Step 9: Setup your facebook app
 [Documentation](https://developers.facebook.com/docs)
 
-Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/v2.5/access-tokens#authNative).
+Now when route `/facebook/login` will be requested then procedure of code exchange will be process [Code exchange](https://developers.facebook.com/docs/facebook-login/access-tokens/v2.5#authNative).
 
 Further documentation
 --------
