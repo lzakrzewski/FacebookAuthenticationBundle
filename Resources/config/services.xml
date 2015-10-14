@@ -56,7 +56,7 @@
         <service id="lucaszz_facebook_authentication.security.facebook_listener" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener" >
             <argument type="service" id="lucaszz_facebook_authentication.security.facebook_login_manager"/>
             <argument type="service" id="lucaszz_facebook_authentication.uri.login_dialog_uri"/>
-            <argument type="service" id="security.context"/>
+            <argument/>
             <argument/>
             <argument/>
             <argument/>

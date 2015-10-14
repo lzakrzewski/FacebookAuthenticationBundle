@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -22,7 +23,7 @@ class FacebookListener implements ListenerInterface
     private $loginManager;
     /** @var FacebookUri */
     private $loginDialogUri;
-    /** @var SecurityContextInterface */
+    /** @var SecurityContextInterface|TokenStorageInterface */
     private $securityContext;
     /** @var AuthenticationSuccessHandlerInterface */
     private $successHandler;
@@ -34,18 +35,18 @@ class FacebookListener implements ListenerInterface
     private $logger;
 
     /**
-     * @param FacebookLoginManager                  $loginManager
-     * @param FacebookUri                           $loginDialogUri
-     * @param SecurityContextInterface              $securityContext
-     * @param AuthenticationSuccessHandlerInterface $successHandler
-     * @param AuthenticationFailureHandlerInterface $failureHandler
-     * @param string                                $loginPath
-     * @param LoggerInterface|null                  $logger
+     * @param FacebookLoginManager                           $loginManager
+     * @param FacebookUri                                    $loginDialogUri
+     * @param SecurityContextInterface|TokenStorageInterface $securityContext
+     * @param AuthenticationSuccessHandlerInterface          $successHandler
+     * @param AuthenticationFailureHandlerInterface          $failureHandler
+     * @param string                                         $loginPath
+     * @param LoggerInterface|null                           $logger
      */
     public function __construct(
         FacebookLoginManager $loginManager,
         FacebookUri $loginDialogUri,
-        SecurityContextInterface $securityContext,
+        $securityContext,
         AuthenticationSuccessHandlerInterface $successHandler,
         AuthenticationFailureHandlerInterface $failureHandler,
         $loginPath,

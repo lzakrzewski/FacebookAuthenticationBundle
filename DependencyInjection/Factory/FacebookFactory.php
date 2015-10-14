@@ -41,6 +41,12 @@ class FacebookFactory implements SecurityFactoryInterface
 
         $listener = new DefinitionDecorator('lucaszz_facebook_authentication.security.facebook_listener');
 
+        if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
+            $tokenStorageReference = new Reference('security.token_storage');
+        } else {
+            $tokenStorageReference = new Reference('security.context');
+        }
+        $listener->replaceArgument(2, $tokenStorageReference);
         $listener->replaceArgument(3, new Reference($this->createAuthenticationSuccessHandler($container, $id, $config)));
         $listener->replaceArgument(4, new Reference($this->createAuthenticationFailureHandler($container, $id, $config)));
         $listener->replaceArgument(5, $config['facebook_login_path']);
