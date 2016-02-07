@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Authentication;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Authentication;
 
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
 class AuthenticationTest extends IntegrationTestCase
 {

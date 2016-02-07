@@ -1,11 +1,11 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Factory;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Factory;
 
 use GuzzleHttp\ClientInterface;
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Uri\FacebookUri;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApi;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi;
+use Lzakrzewski\FacebookAuthenticationBundle\Uri\FacebookUri;
 use Psr\Log\LoggerInterface;
 
 class FacebookApiFactory

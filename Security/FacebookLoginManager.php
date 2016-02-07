@@ -1,10 +1,10 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Security;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Security;
 
 use FOS\UserBundle\Security\LoginManagerInterface;
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApi;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUsers;
 
 class FacebookLoginManager
 {

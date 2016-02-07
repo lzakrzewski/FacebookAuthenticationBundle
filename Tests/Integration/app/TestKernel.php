@@ -1,10 +1,10 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\app;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FOS\UserBundle\FOSUserBundle;
-use Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle;
+use Lzakrzewski\FacebookAuthenticationBundle\LzakrzewskiFacebookAuthenticationBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -22,7 +22,7 @@ class TestKernel extends Kernel
             new SecurityBundle(),
             new TwigBundle(),
             new FOSUserBundle(),
-            new LucaszzFacebookAuthenticationBundle(),
+            new LzakrzewskiFacebookAuthenticationBundle(),
         );
     }
 
@@ -46,6 +46,6 @@ class TestKernel extends Kernel
 
     private function tmpDir()
     {
-        return sys_get_temp_dir().'/lucaszz_facebook_authentication_test';
+        return sys_get_temp_dir().'/lzakrzewski_facebook_authentication_test';
     }
 }

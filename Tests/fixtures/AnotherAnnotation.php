@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\fixtures;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures;
 
 use Doctrine\Common\Annotations\Annotation;
 

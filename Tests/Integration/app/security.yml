@@ -14,7 +14,7 @@ security:
                 csrf_provider: security.csrf.token_manager
             logout:       true
             anonymous:    true
-            lucaszz_facebook: true
+            lzakrzewski_facebook: true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

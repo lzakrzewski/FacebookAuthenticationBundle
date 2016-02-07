@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Factory;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Factory;
 
-use Lucaszz\FacebookAuthenticationBundle\Factory\FacebookApiFactory;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lzakrzewski\FacebookAuthenticationBundle\Factory\FacebookApiFactory;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
 class FacebookApiFactoryTest extends IntegrationTestCase
 {
@@ -15,7 +15,7 @@ class FacebookApiFactoryTest extends IntegrationTestCase
     {
         $api = $this->factory->get();
 
-        $this->assertInstanceOf('Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi', $api);
+        $this->assertInstanceOf('Lzakrzewski\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi', $api);
     }
 
     /** {@inheritdoc} */
@@ -23,7 +23,7 @@ class FacebookApiFactoryTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->factory = $this->container->get('lucaszz_facebook_authentication.factory.facebook_api');
+        $this->factory = $this->container->get('lzakrzewski_facebook_authentication.factory.facebook_api');
     }
 
     /** {@inheritdoc} */

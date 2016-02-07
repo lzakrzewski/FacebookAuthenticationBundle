@@ -1,7 +1,7 @@
 FacebookAuthenticationBundle
 ======
 
-[![Build Status](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle.svg)](https://travis-ci.org/Lucaszz/FacebookAuthenticationBundle) [![Latest Stable Version](https://poser.pugx.org/lucaszz/facebook-authentication-bundle/v/stable)](https://packagist.org/packages/lucaszz/facebook-authentication-bundle) [![Total Downloads](https://poser.pugx.org/lucaszz/facebook-authentication-bundle/downloads)](https://packagist.org/packages/lucaszz/facebook-authentication-bundle)
+[![Build Status](https://travis-ci.org/lzakrzewski/FacebookAuthenticationBundle.svg)](https://travis-ci.org/lzakrzewski/FacebookAuthenticationBundle) [![Latest Stable Version](https://poser.pugx.org/lzakrzewski/facebook-authentication-bundle/v/stable)](https://packagist.org/packages/lzakrzewski/facebook-authentication-bundle) [![Total Downloads](https://poser.pugx.org/lzakrzewski/facebook-authentication-bundle/downloads)](https://packagist.org/packages/lzakrzewski/facebook-authentication-bundle)
 
 This bundle provides Facebook authentication for your Symfony2 app using the FOSUserBundle.
 Target: Keep it minimalistic and use existing components from Symfony2 and FOSUserBundle.
@@ -19,7 +19,7 @@ Requirements
     "require": {
         "php": ">=5.4",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "lucaszz/facebook-authentication-adapter": "~1.0"
+        "lzakrzewski/facebook-authentication-adapter": "~1.0"
     }
 ```
 
@@ -36,7 +36,7 @@ Installation
 #### Step 2: Require the FacebookAuthenticationBundle with composer
 
 ```sh
-composer require lucaszz/facebook-authentication-bundle "~1.0"
+composer require lzakrzewski/facebook-authentication-bundle "~1.0"
 ```
 
 #### Step 3: Enable the FacebookAuthenticationBundle
@@ -47,7 +47,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Lucaszz\FacebookAuthenticationBundle\LucaszzFacebookAuthenticationBundle(),
+        new Lzakrzewski\FacebookAuthenticationBundle\LzakrzewskiFacebookAuthenticationBundle(),
         // ...
     );
 }
@@ -62,7 +62,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser;
 
 /**
  * @ORM\Entity
@@ -102,7 +102,7 @@ class User extends BaseUser implements FacebookUser
 ###### Minimal configuration:
 
 ```yaml
-lucaszz_facebook_authentication:
+lzakrzewski_facebook_authentication:
     app_id: 1234
     app_secret: secret
 ```
@@ -110,7 +110,7 @@ Parameters: `app_id` and `secret` are needed to get access token: [Access Tokens
 
 ###### Example of full configuration:
 ```yaml
-lucaszz_facebook_authentication:
+lzakrzewski_facebook_authentication:
     app_id: 1234
     app_secret: secret
     scope: ["public_profile", "email", "user_birthday"]
@@ -151,7 +151,7 @@ security:
             logout:       true
             anonymous:    true
             # Enable facebook_listener  
-            lucaszz_facebook: true
+            lzakrzewski_facebook: true
             
     # ...
 ```

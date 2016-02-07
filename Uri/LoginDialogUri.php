@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Uri;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Uri;
 
 class LoginDialogUri implements FacebookUri
 {

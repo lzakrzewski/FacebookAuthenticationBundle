@@ -1,11 +1,11 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -33,7 +33,7 @@ abstract class IntegrationTestCase extends WebTestCase
     {
         include_once __DIR__.'/app/TestKernel.php';
 
-        return 'Lucaszz\FacebookAuthenticationBundle\Tests\Integration\app\TestKernel';
+        return 'Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\app\TestKernel';
     }
 
     /** {@inheritdoc} */

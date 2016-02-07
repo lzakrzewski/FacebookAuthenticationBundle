@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Event;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Event;
 
 use FOS\UserBundle\Model\UserInterface;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser;
 use Symfony\Component\EventDispatcher\Event;
 
 final class FacebookUserEvent extends Event

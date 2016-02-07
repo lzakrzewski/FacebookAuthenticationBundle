@@ -1,17 +1,17 @@
 services:
-    lucaszz_facebook_authentication.debug_handler:
+    lzakrzewski_facebook_authentication.debug_handler:
         class: Symfony\Bridge\Monolog\Handler\DebugHandler
 
     logger:
         class: Symfony\Bridge\Monolog\Logger
         arguments:
-            - lucaszz_facebook_authentication
-            - [@lucaszz_facebook_authentication.debug_handler]
+            - lzakrzewski_facebook_authentication
+            - [@lzakrzewski_facebook_authentication.debug_handler]
 
     fos_user.mailer.fake:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeMailer
+        class: Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeMailer
 
-    lucaszz_facebook_authentication.adapter.facebook_api: @lucaszz_facebook_authentication.adapter.facebook_api.fake
+    lzakrzewski_facebook_authentication.adapter.facebook_api: @lzakrzewski_facebook_authentication.adapter.facebook_api.fake
 
-    lucaszz_facebook_authentication.adapter.facebook_api.fake:
-        class: Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi
+    lzakrzewski_facebook_authentication.adapter.facebook_api.fake:
+        class: Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Fake\FakeFacebookApi

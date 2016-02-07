@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Uri;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Uri;
 
-use Lucaszz\FacebookAuthenticationBundle\Uri\LoginDialogUri;
-use Lucaszz\FacebookAuthenticationBundle\Uri\RedirectUri;
+use Lzakrzewski\FacebookAuthenticationBundle\Uri\LoginDialogUri;
+use Lzakrzewski\FacebookAuthenticationBundle\Uri\RedirectUri;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class LoginDialogUriTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +25,7 @@ class LoginDialogUriTest extends \PHPUnit_Framework_TestCase
     /** {@inheritdoc} */
     protected function setUp()
     {
-        $this->redirectUri = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Uri\RedirectUri');
+        $this->redirectUri = $this->prophesize('Lzakrzewski\FacebookAuthenticationBundle\Uri\RedirectUri');
 
         $this->uri = new LoginDialogUri($this->redirectUri->reveal(), 123456, array('public_profile', 'email', 'user_birthday'));
     }

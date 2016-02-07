@@ -24,7 +24,7 @@ doctrine:
         mappings:
             facebook_authentication_test:
                 type: annotation
-                prefix: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures
+                prefix: Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures
                 dir: "%kernel.root_dir%/../../fixtures"
                 alias: FacebookAuthenticationTest
                 is_bundle: false
@@ -34,9 +34,9 @@ fos_user:
         mailer: fos_user.mailer.fake
     db_driver: orm
     firewall_name: main
-    user_class: Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser
+    user_class: Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\TestUser
 
-lucaszz_facebook_authentication:
+lzakrzewski_facebook_authentication:
     app_id: 1234
     app_secret: secret
     scope: ["public_profile", "email", "user_birthday"]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Uri;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Uri;
 
 use Symfony\Component\Routing\RequestContext;
 

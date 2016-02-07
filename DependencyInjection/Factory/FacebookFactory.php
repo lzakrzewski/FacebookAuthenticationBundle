@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\DependencyInjection\Factory;
+namespace Lzakrzewski\FacebookAuthenticationBundle\DependencyInjection\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -37,9 +37,9 @@ class FacebookFactory implements SecurityFactoryInterface
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
         $providerId = 'security.authentication.provider.dao.'.$id;
-        $listenerId = 'security.authentication.listener.lucaszz_facebook.'.$id;
+        $listenerId = 'security.authentication.listener.lzakrzewski_facebook.'.$id;
 
-        $listener = new DefinitionDecorator('lucaszz_facebook_authentication.security.facebook_listener');
+        $listener = new DefinitionDecorator('lzakrzewski_facebook_authentication.security.facebook_listener');
 
         if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
             $tokenStorageReference = new Reference('security.token_storage');
@@ -52,7 +52,7 @@ class FacebookFactory implements SecurityFactoryInterface
         $listener->replaceArgument(4, new Reference($this->createAuthenticationFailureHandler($container, $id, $config)));
         $listener->replaceArgument(5, $config['facebook_login_path']);
 
-        $container->setParameter('lucaszz_facebook.facebook_login_path', $config['facebook_login_path']);
+        $container->setParameter('lzakrzewski_facebook.facebook_login_path', $config['facebook_login_path']);
         $container->setDefinition($listenerId, $listener);
 
         return array($providerId, $listenerId, $defaultEntryPoint);
@@ -100,7 +100,7 @@ class FacebookFactory implements SecurityFactoryInterface
      */
     public function getKey()
     {
-        return 'lucaszz_facebook';
+        return 'lzakrzewski_facebook';
     }
 
     /**

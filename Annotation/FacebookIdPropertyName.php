@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Annotation;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Annotation;
 
 use FOS\UserBundle\Model\UserInterface;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser;
 use Doctrine\Common\Annotations\Reader;
 
 class FacebookIdPropertyName

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Model;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Model;
 
 final class FacebookUserException extends \RuntimeException
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Model;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Model;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
-use Lucaszz\FacebookAuthenticationBundle\Event\FacebookUserEvent;
+use Lzakrzewski\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
+use Lzakrzewski\FacebookAuthenticationBundle\Event\FacebookUserEvent;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Lucaszz\FacebookAuthenticationBundle\Events;
+use Lzakrzewski\FacebookAuthenticationBundle\Events;
 
 class FacebookUsers
 {
@@ -80,7 +80,7 @@ class FacebookUsers
         $emptyUser = $this->users->createUser();
 
         if (!$emptyUser instanceof FacebookUser) {
-            throw new FacebookUserException(sprintf('User could be only instance of \Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($emptyUser)));
+            throw new FacebookUserException(sprintf('User could be only instance of \Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser, instance of %s given.', get_class($emptyUser)));
         }
 
         $propertyName = $this->propertyName->get($emptyUser);

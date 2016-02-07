@@ -1,12 +1,12 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle;
+namespace Lzakrzewski\FacebookAuthenticationBundle;
 
-use Lucaszz\FacebookAuthenticationBundle\DependencyInjection\Factory\FacebookFactory;
+use Lzakrzewski\FacebookAuthenticationBundle\DependencyInjection\Factory\FacebookFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class LucaszzFacebookAuthenticationBundle extends Bundle
+class LzakrzewskiFacebookAuthenticationBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

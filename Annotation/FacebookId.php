@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Annotation;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Annotation;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Annotation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUserWithFacebookIdAnnotation;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\WrongUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\TestUserWithFacebookIdAnnotation;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\WrongUser;
 
 class FacebookIdPropertyNameTest extends \PHPUnit_Framework_TestCase
 {

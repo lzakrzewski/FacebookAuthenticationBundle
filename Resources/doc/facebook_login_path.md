@@ -22,7 +22,7 @@ security:
             logout:       true
             anonymous:    true
             # set custom path 
-            lucaszz_facebook:
+            lzakrzewski_facebook:
                 facebook_login_path: /custom-facebook-login
 
     # ...

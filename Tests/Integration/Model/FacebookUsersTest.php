@@ -1,10 +1,10 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Model;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Model;
 
 use FOS\UserBundle\Model\UserInterface;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
-use Lucaszz\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUsers;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\IntegrationTestCase;
 
 class FacebookUsersTest extends IntegrationTestCase
 {
@@ -50,7 +50,7 @@ class FacebookUsersTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->facebookUsers = $this->container->get('lucaszz_facebook_authentication.model.facebook_users');
+        $this->facebookUsers = $this->container->get('lzakrzewski_facebook_authentication.model.facebook_users');
 
         $this->setupDatabase();
     }
@@ -67,7 +67,7 @@ class FacebookUsersTest extends IntegrationTestCase
 
     private function assertFacebookUser($facebookId, $name, $email, UserInterface $user)
     {
-        $this->assertInstanceOf('Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser', $user);
+        $this->assertInstanceOf('Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser', $user);
         $this->assertInstanceOf('FOS\UserBundle\Model\User', $user);
 
         $this->assertEquals($facebookId, $user->getFacebookId());

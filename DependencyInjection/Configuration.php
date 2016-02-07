@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\DependencyInjection;
+namespace Lzakrzewski\FacebookAuthenticationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -13,7 +13,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('lucaszz_facebook_authentication');
+        $rootNode = $treeBuilder->root('lzakrzewski_facebook_authentication');
 
         $rootNode
             ->children()
@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
                         ->ifTrue(function ($v) {
                             return !in_array('email', $v) || !in_array('public_profile', $v);
                         })
-                        ->thenInvalid('Values "email" and "public_profile" are required for "lucaszz_facebook_authentication.scope", %s given.')
+                        ->thenInvalid('Values "email" and "public_profile" are required for "lzakrzewski_facebook_authentication.scope", %s given.')
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                         ->ifTrue(function ($v) {
                             return !in_array('name', $v) || !in_array('email', $v);
                         })
-                        ->thenInvalid('Values "name" and "email" are required for "lucaszz_facebook_authentication.fields", %s given.')
+                        ->thenInvalid('Values "name" and "email" are required for "lzakrzewski_facebook_authentication.fields", %s given.')
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()

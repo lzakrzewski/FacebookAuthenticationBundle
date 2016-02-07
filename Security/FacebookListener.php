@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Security;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Security;
 
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
-use Lucaszz\FacebookAuthenticationBundle\Uri\FacebookUri;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
+use Lzakrzewski\FacebookAuthenticationBundle\Uri\FacebookUri;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

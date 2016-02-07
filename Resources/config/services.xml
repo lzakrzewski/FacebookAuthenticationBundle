@@ -5,57 +5,57 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="lucaszz_facebook_authentication.guzzle" class="GuzzleHttp\Client" />
+        <service id="lzakrzewski_facebook_authentication.guzzle" class="GuzzleHttp\Client" />
 
-        <service id="lucaszz_facebook_authentication.adapter.facebook_api" alias="lucaszz_facebook_authentication.adapter.facebook_api.guzzle" />
+        <service id="lzakrzewski_facebook_authentication.adapter.facebook_api" alias="lzakrzewski_facebook_authentication.adapter.facebook_api.guzzle" />
 
-        <service id="lucaszz_facebook_authentication.factory.facebook_api" class="Lucaszz\FacebookAuthenticationBundle\Factory\FacebookApiFactory">
-            <argument type="service" id="lucaszz_facebook_authentication.guzzle"/>
-            <argument type="service" id="lucaszz_facebook_authentication.uri.redirect_uri"/>
-            <argument>%lucaszz_facebook_authentication.app_id%</argument>
-            <argument>%lucaszz_facebook_authentication.app_secret%</argument>
+        <service id="lzakrzewski_facebook_authentication.factory.facebook_api" class="Lzakrzewski\FacebookAuthenticationBundle\Factory\FacebookApiFactory">
+            <argument type="service" id="lzakrzewski_facebook_authentication.guzzle"/>
+            <argument type="service" id="lzakrzewski_facebook_authentication.uri.redirect_uri"/>
+            <argument>%lzakrzewski_facebook_authentication.app_id%</argument>
+            <argument>%lzakrzewski_facebook_authentication.app_secret%</argument>
             <argument type="service" id="logger" on-invalid="null" />
         </service>
 
         <service
-                id="lucaszz_facebook_authentication.adapter.facebook_api.guzzle"
-                class="Lucaszz\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi"
-                factory-service="lucaszz_facebook_authentication.factory.facebook_api"
+                id="lzakrzewski_facebook_authentication.adapter.facebook_api.guzzle"
+                class="Lzakrzewski\FacebookAuthenticationAdapter\Adapter\GuzzleFacebookApi"
+                factory-service="lzakrzewski_facebook_authentication.factory.facebook_api"
                 factory-method="get"
                 />
 
-        <service id="lucaszz_facebook_authentication.annotation.facebook_id_property_name" class="Lucaszz\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName" >
+        <service id="lzakrzewski_facebook_authentication.annotation.facebook_id_property_name" class="Lzakrzewski\FacebookAuthenticationBundle\Annotation\FacebookIdPropertyName" >
             <argument type="service" id="annotation_reader"/>
         </service>
 
-        <service id="lucaszz_facebook_authentication.model.facebook_users" class="Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers" >
+        <service id="lzakrzewski_facebook_authentication.model.facebook_users" class="Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUsers" >
             <argument type="service" id="fos_user.user_manager"/>
-            <argument type="service" id="lucaszz_facebook_authentication.annotation.facebook_id_property_name"/>
+            <argument type="service" id="lzakrzewski_facebook_authentication.annotation.facebook_id_property_name"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="lucaszz_facebook_authentication.uri.redirect_uri" class="Lucaszz\FacebookAuthenticationBundle\Uri\RedirectUri" >
+        <service id="lzakrzewski_facebook_authentication.uri.redirect_uri" class="Lzakrzewski\FacebookAuthenticationBundle\Uri\RedirectUri" >
             <argument type="service" id="router.request_context"/>
-            <argument>%lucaszz_facebook.facebook_login_path%</argument>
+            <argument>%lzakrzewski_facebook.facebook_login_path%</argument>
         </service>
 
-        <service id="lucaszz_facebook_authentication.uri.login_dialog_uri" class="Lucaszz\FacebookAuthenticationBundle\Uri\LoginDialogUri" >
-            <argument type="service" id="lucaszz_facebook_authentication.uri.redirect_uri"/>
-            <argument>%lucaszz_facebook_authentication.app_id%</argument>
-            <argument>%lucaszz_facebook_authentication.scope%</argument>
+        <service id="lzakrzewski_facebook_authentication.uri.login_dialog_uri" class="Lzakrzewski\FacebookAuthenticationBundle\Uri\LoginDialogUri" >
+            <argument type="service" id="lzakrzewski_facebook_authentication.uri.redirect_uri"/>
+            <argument>%lzakrzewski_facebook_authentication.app_id%</argument>
+            <argument>%lzakrzewski_facebook_authentication.scope%</argument>
         </service>
 
-        <service id="lucaszz_facebook_authentication.security.facebook_login_manager" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager" >
-            <argument type="service" id="lucaszz_facebook_authentication.adapter.facebook_api"/>
-            <argument type="service" id="lucaszz_facebook_authentication.model.facebook_users"/>
+        <service id="lzakrzewski_facebook_authentication.security.facebook_login_manager" class="Lzakrzewski\FacebookAuthenticationBundle\Security\FacebookLoginManager" >
+            <argument type="service" id="lzakrzewski_facebook_authentication.adapter.facebook_api"/>
+            <argument type="service" id="lzakrzewski_facebook_authentication.model.facebook_users"/>
             <argument type="service" id="fos_user.security.login_manager"/>
-            <argument>%lucaszz_facebook_authentication.fields%</argument>
+            <argument>%lzakrzewski_facebook_authentication.fields%</argument>
             <argument>%fos_user.firewall_name%</argument>
         </service>
 
-        <service id="lucaszz_facebook_authentication.security.facebook_listener" class="Lucaszz\FacebookAuthenticationBundle\Security\FacebookListener" >
-            <argument type="service" id="lucaszz_facebook_authentication.security.facebook_login_manager"/>
-            <argument type="service" id="lucaszz_facebook_authentication.uri.login_dialog_uri"/>
+        <service id="lzakrzewski_facebook_authentication.security.facebook_listener" class="Lzakrzewski\FacebookAuthenticationBundle\Security\FacebookListener" >
+            <argument type="service" id="lzakrzewski_facebook_authentication.security.facebook_login_manager"/>
+            <argument type="service" id="lzakrzewski_facebook_authentication.uri.login_dialog_uri"/>
             <argument/>
             <argument/>
             <argument/>

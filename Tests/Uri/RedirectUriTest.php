@@ -1,8 +1,8 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Uri;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Uri;
 
-use Lucaszz\FacebookAuthenticationBundle\Uri\RedirectUri;
+use Lzakrzewski\FacebookAuthenticationBundle\Uri\RedirectUri;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Routing\RequestContext;
 

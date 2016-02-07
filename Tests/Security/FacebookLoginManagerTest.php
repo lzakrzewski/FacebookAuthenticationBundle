@@ -1,12 +1,12 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Model;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Model;
 
 use FOS\UserBundle\Security\LoginManagerInterface;
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers;
-use Lucaszz\FacebookAuthenticationBundle\Security\FacebookLoginManager;
-use Lucaszz\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApi;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUsers;
+use Lzakrzewski\FacebookAuthenticationBundle\Security\FacebookLoginManager;
+use Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures\TestUser;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
@@ -43,8 +43,8 @@ class FacebookLoginManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->api = $this->prophesize('Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi');
-        $this->users = $this->prophesize('Lucaszz\FacebookAuthenticationBundle\Model\FacebookUsers');
+        $this->api = $this->prophesize('Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApi');
+        $this->users = $this->prophesize('Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUsers');
         $this->loginManager = $this->prophesize('FOS\UserBundle\Security\LoginManagerInterface');
         $this->fields = array('name', 'email');
 

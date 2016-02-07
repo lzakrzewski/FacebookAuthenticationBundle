@@ -1,10 +1,10 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\fixtures;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\fixtures;
 
 use FOS\UserBundle\Model\User;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
-use Lucaszz\FacebookAuthenticationBundle\Annotation as Lucaszz;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Annotation as Lzakrzewski;
 
 class TestUserWithFacebookIdAnnotation extends User implements FacebookUser
 {
@@ -17,7 +17,7 @@ class TestUserWithFacebookIdAnnotation extends User implements FacebookUser
 
     /**
      * @AnotherAnnotation
-     * @Lucaszz\FacebookId
+     * @Lzakrzewski\FacebookId
      * @AnotherAnnotation
      *
      * @var int

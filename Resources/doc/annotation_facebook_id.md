@@ -13,8 +13,8 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Lucaszz\FacebookAuthenticationBundle\Model\FacebookUser;
-use Lucaszz\FacebookAuthenticationBundle\Annotation as Lucaszz;
+use Lzakrzewski\FacebookAuthenticationBundle\Model\FacebookUser;
+use Lzakrzewski\FacebookAuthenticationBundle\Annotation as Lzakrzewski;
 
 /**
  * @ORM\Entity
@@ -30,7 +30,7 @@ class User extends BaseUser implements FacebookUser
     protected $id;
     
     /** 
-     * @Lucaszz\FacebookId
+     * @Lzakrzewski\FacebookId
      * @ORM\Column(type="bigint", nullable=true)
      */
     private $apiId;

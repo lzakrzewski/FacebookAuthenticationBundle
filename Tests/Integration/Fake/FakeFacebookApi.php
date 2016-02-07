@@ -1,9 +1,9 @@
 <?php
 
-namespace Lucaszz\FacebookAuthenticationBundle\Tests\Integration\Fake;
+namespace Lzakrzewski\FacebookAuthenticationBundle\Tests\Integration\Fake;
 
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApi;
-use Lucaszz\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApi;
+use Lzakrzewski\FacebookAuthenticationAdapter\Adapter\FacebookApiException;
 
 class FakeFacebookApi implements FacebookApi
 {
